@@ -51,10 +51,14 @@ public abstract class WMTSource {
     protected WMTSource() {
     }
 
+    public WMTSource(String name) {
+        setName(name);
+    }
+
     protected void init(String resourceId) throws Exception {
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 

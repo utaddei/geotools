@@ -33,13 +33,15 @@ class BingTileFactory extends TileFactory {
      * {@inheritDoc}
      *
      * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#getTileFromCoordinate(double,
-     *      double, org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTZoomLevel,
+     *      double,
+     *      org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTZoomLevel,
      *      org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource)
      */
-    public Tile getTileFromCoordinate(double lat, double lon, ZoomLevel zoomLevel,
-            WMTSource wmtSource) {
+    public Tile getTileFromCoordinate(double lat, double lon,
+            ZoomLevel zoomLevel, WMTSource wmtSource) {
 
-        int[] tileXY = BingTileHelper.lonLatToPixelXY(lon, lat, zoomLevel.getZoomLevel());
+        int[] tileXY = BingTileHelper.lonLatToPixelXY(lon, lat,
+                zoomLevel.getZoomLevel());
 
         int colX = (int) Math.floor(tileXY[0] / BingTile.DEFAULT_TILE_SIZE);
         int rowY = (int) Math.floor(tileXY[1] / BingTile.DEFAULT_TILE_SIZE);

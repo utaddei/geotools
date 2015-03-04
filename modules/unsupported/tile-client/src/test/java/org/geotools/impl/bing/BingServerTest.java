@@ -65,7 +65,7 @@ public class BingServerTest {
         HAWAII_EXTENT = new ReferencedEnvelope(new Envelope(-160.635967,
                 -154.483623, 18.651309, 22.598660), DefaultGeographicCRS.WGS84);
 
-        // hmmm failing near data line
+        // hmmm failing near date line
         NZ_EXTENT = new ReferencedEnvelope(new Envelope(164.798799, 179.029327,
                 -47.732492, -33.697613), DefaultGeographicCRS.WGS84);
 
@@ -77,12 +77,12 @@ public class BingServerTest {
     @Test
     public void testGetTilesInExtent() {
 
-        WMTSource server = new BingSource();
+        WMTSource server = new BingSource("nothing");
 
         // DE_EXTENT = new ReferencedEnvelope(new Envelope(6, 15, 47, 55),
         // DefaultGeographicCRS.WGS84);
 
-        Map<String, Tile> tileList = server.cutExtentIntoTiles2(TZ_EXTENT,
+        Map<String, Tile> tileList = server.cutExtentIntoTiles2(DE_EXTENT,
                 5957345, true, 15);
         System.out.println("size: " + tileList.size());
 

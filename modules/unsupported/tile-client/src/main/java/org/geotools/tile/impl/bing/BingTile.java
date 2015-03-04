@@ -16,13 +16,11 @@
  */
 package org.geotools.tile.impl.bing;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.Tile;
-import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.WMTSource;
 import org.geotools.tile.impl.ZoomLevel;
 
@@ -36,58 +34,9 @@ public class BingTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
-    private BingTileName tileName;
+    private BingTileIdentifier tileName;
 
     private WMTSource source;
-
-    public static class BingTileName extends TileIdentifier {
-
-        private ZoomLevel zoomLevel;
-
-        private WMTSource source;
-
-        /**
-         * Konstruktor für eine neue BingTileName.
-         *
-         * @param zoomLevel
-         * @param x
-         * @param y
-         * @param source
-         */
-        public BingTileName(int x, int y, ZoomLevel zoomLevel, WMTSource source) {
-            super(zoomLevel, x, y, source);
-            this.zoomLevel = zoomLevel;
-            this.source = source;
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @see org.locationtech.udig.catalog.internal.wmt.tile.TileIdentifier#getTileUrl()
-         */
-        @Override
-        public URL getTileUrl() {
-            try {
-                return new URL(null, ((BingSource) source).getTileUrl(zoomLevel.getZoomLevel(),
-                        getX(), getY()));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        public BingTileName getRightNeighbour() {
-
-            return new BingTileName(TileIdentifier.arithmeticMod((getX() + 1),
-                    zoomLevel.getMaxTilePerRowNumber()), getY(), zoomLevel, source);
-        }
-
-        public BingTileName getLowerNeighbour() {
-
-            return new BingTileName(getX(), TileIdentifier.arithmeticMod((getY() + 1),
-                    zoomLevel.getMaxTilePerRowNumber()), zoomLevel, source);
-        }
-    }
 
     /**
      * Konstruktor für eine neue BingTile.
@@ -96,12 +45,13 @@ public class BingTile extends Tile {
      * @param tileName
      */
     public BingTile(int x, int y, ZoomLevel zoomLevel, WMTSource bingSource) {
-        this(new BingTileName(x, y, zoomLevel, bingSource), bingSource);
+        this(new BingTileIdentifier(x, y, zoomLevel, bingSource), bingSource);
     }
 
-    public BingTile(BingTileName tileName, WMTSource bingSource) {
+    public BingTile(BingTileIdentifier tileName, WMTSource bingSource) {
 
-        super(BingTile.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE, tileName);
+        super(BingTile.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE,
+                tileName);
 
         this.tileName = tileName;
         this.source = bingSource;
@@ -119,13 +69,14 @@ public class BingTile extends Tile {
 
     }
 
-    public static ReferencedEnvelope getExtentFromTileName(BingTileName tileName) {
+    public static ReferencedEnvelope getExtentFromTileName(BingTileIdentifier tileName) {
 
         final int z = tileName.getZoomLevel();
 
-        ReferencedEnvelope extent = new ReferencedEnvelope(tile2lon(tileName.getX(), z), tile2lon(
-                tileName.getX() + 1, z), tile2lat(tileName.getY(), z), tile2lat(
-                        tileName.getY() + 1, z), DefaultGeographicCRS.WGS84);
+        ReferencedEnvelope extent = new ReferencedEnvelope(tile2lon(
+                tileName.getX(), z), tile2lon(tileName.getX() + 1, z),
+                tile2lat(tileName.getY(), z), tile2lat(tileName.getY() + 1, z),
+                DefaultGeographicCRS.WGS84);
 
         return extent;
     }
@@ -147,6 +98,12 @@ public class BingTile extends Tile {
     public Tile getLowerNeighbour() {
 
         return new BingTile(tileName.getLowerNeighbour(), source);
+    }
+
+    @Override
+    public URL getTileUrl() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

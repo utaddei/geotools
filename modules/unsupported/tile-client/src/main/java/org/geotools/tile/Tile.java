@@ -20,52 +20,55 @@ package org.geotools.tile;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
 /**
- * At tile represents a single space on the map within a specific ReferencedEnvelope. It holds a
- * RenderExecutorComposite for fetching its image, and an SWTImage (which is disposed at various
- * times). It listens to events for when to fetch, dispose, and construct new images.
- *
- * From https://github.com/moovida/uDig/blob/master/plugins/net.refractions.udig.project/src/net/
+ * At tile represents a single space on the map within a specific
+ * ReferencedEnvelope. It holds a RenderExecutorComposite for fetching its
+ * image, and an SWTImage (which is disposed at various times). It listens to
+ * events for when to fetch, dispose, and construct new images. From
+ * https://github
+ * .com/moovida/uDig/blob/master/plugins/net.refractions.udig.project/src/net/
  * refractions/udig/project /render/Tile.java
  *
  * @author GDavis
- *
  */
 public abstract class Tile {
 
     /**
-     * These are the states of the tile. This state represents if the tile needs to be re-rendered
-     * or not. A state of new or invalid means the tile should be re-rendered
-     *
+     * These are the states of the tile. This state represents if the tile needs
+     * to be re-rendered or not. A state of new or invalid means the tile should
+     * be re-rendered
      */
     public enum RenderState {
         NEW, RENDERED, INVALID
     };
 
     /**
-     * These states represent the state of the context. If the context is invalid than the rendering
-     * stack no longer matches the rendering stack the user has defined and the rendering stack
-     * needs to be updated.
+     * These states represent the state of the context. If the context is
+     * invalid than the rendering stack no longer matches the rendering stack
+     * the user has defined and the rendering stack needs to be updated.
      */
     public enum ContextState {
         OKAY, INVALID
     };
 
     /**
-     * These states represent if the tile is on or off screen. This information is used to determine
-     * what tiles can be disposed.
+     * These states represent if the tile is on or off screen. This information
+     * is used to determine what tiles can be disposed.
      */
     public enum ScreenState {
         ONSCREEN, OFFSCREEN
     };
 
     /**
-     * These states represent if the tile has been validated in response to a user event.
+     * These states represent if the tile has been validated in response to a
+     * user event.
      * <p>
-     * This information is used along with the screen state to determine if a tile can be disposed.
+     * This information is used along with the screen state to determine if a
+     * tile can be disposed.
      */
     public enum ValidatedState {
         VALIDATED, OLD
@@ -142,19 +145,18 @@ public abstract class Tile {
         // disposeSWTImage();
         setScreenState(ScreenState.OFFSCREEN);
         // TODO: figure out how to properly dispose of the render executors
-        // we cannot just call dispose because this drops all the layer listeners
+        // we cannot just call dispose because this drops all the layer
+        // listeners
         // that listen for events
         // getRenderExecutor().dispose();
     }
 
     /**
-     * Gets the SWT image; if the image is null or disposed then it tried to create it before it is
-     * returned.
+     * Gets the SWT image; if the image is null or disposed then it tried to
+     * create it before it is returned.
      *
-     * @return
-     *
-     *         public Image getSWTImage() { if (swtImage == null || swtImage.isDisposed()) {
-     *         createSWTImage(); } return swtImage; }
+     * @return public Image getSWTImage() { if (swtImage == null ||
+     *         swtImage.isDisposed()) { createSWTImage(); } return swtImage; }
      */
 
     /**
@@ -167,14 +169,16 @@ public abstract class Tile {
         try {
 
             // create an empty image
-            buffImage = new BufferedImage(getTileSize(), getTileSize(), BufferedImage.TYPE_INT_ARGB);
+            buffImage = new BufferedImage(getTileSize(), getTileSize(),
+                    BufferedImage.TYPE_INT_ARGB);
             Graphics2D graphics = buffImage.createGraphics();
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, getTileSize(), getTileSize());
             graphics.setColor(Color.RED);
             graphics.drawLine(0, 0, getTileSize(), getTileSize());
             graphics.drawLine(0, getTileSize(), getTileSize(), 0);
-            graphics.drawString("No Render Executor For Tile", getTileSize() / 2, getTileSize() / 2); //$NON-NLS-1$
+            graphics.drawString(
+                    "No Render Executor For Tile", getTileSize() / 2, getTileSize() / 2); //$NON-NLS-1$
             graphics.dispose();
 
         } catch (Exception ex) {
@@ -185,21 +189,17 @@ public abstract class Tile {
     }
 
     /**
-     * Creates an swt image from the tiles buffered image.
-     *
-     * private void createSWTImage() { // synchronize this code to prevent multiple threads from
-     * creating the SWT image more times than needed
-     *
-     * synchronized (SWTLock) { // if the SWTImage is created once the lock is gained, exit if
-     * (swtImage != null && !swtImage.isDisposed()) { return; } // otherwise try creating the
-     * SWTImage now try { BufferedImage buffImage = getBufferedImage(); swtImage =
-     * AWTSWTImageUtils.createSWTImage(buffImage, false); } catch (Exception ex) {
-     * ex.printStackTrace(); } } }
+     * Creates an swt image from the tiles buffered image. private void
+     * createSWTImage() { // synchronize this code to prevent multiple threads
+     * from creating the SWT image more times than needed synchronized (SWTLock)
+     * { // if the SWTImage is created once the lock is gained, exit if
+     * (swtImage != null && !swtImage.isDisposed()) { return; } // otherwise try
+     * creating the SWTImage now try { BufferedImage buffImage =
+     * getBufferedImage(); swtImage = AWTSWTImageUtils.createSWTImage(buffImage,
+     * false); } catch (Exception ex) { ex.printStackTrace(); } } }
      */
 
     /**
-     *
-     *
      * @return The size of the tile in pixels.
      */
     public int getTileSize() {
@@ -207,8 +207,6 @@ public abstract class Tile {
     }
 
     /**
-     *
-     *
      * @return the bounds of the tile
      */
     @Deprecated
@@ -217,8 +215,6 @@ public abstract class Tile {
     }
 
     /**
-     *
-     *
      * @return the bounds of the tile
      */
     public ReferencedEnvelope getExtent() {
@@ -226,15 +222,11 @@ public abstract class Tile {
     }
 
     /**
-     *
-     *
-     * @return the parent render executor
-     *
-     *         public RenderExecutorComposite getRenderExecutor() { return renderExecutorComp; }
+     * @return the parent render executor public RenderExecutorComposite
+     *         getRenderExecutor() { return renderExecutorComp; }
      */
     /**
      * Sets the state of the tiles image.
-     *
      * <p>
      * See getRenderState() for a description of the valid states.
      *
@@ -253,9 +245,10 @@ public abstract class Tile {
      * One Of:
      * <ul>
      * <li>RenderState.NEW - a new tile that needs to be rendered
-     * <li>RenderState.Renderer - the tile has been rendered or is in the state of being rendered
-     * <li>RenderState.Invalid - something has changed and the tile's rendered image is not longer
-     * valid and needs to be re-rendered
+     * <li>RenderState.Renderer - the tile has been rendered or is in the state
+     * of being rendered
+     * <li>RenderState.Invalid - something has changed and the tile's rendered
+     * image is not longer valid and needs to be re-rendered
      * </ul>
      *
      * @return
@@ -265,8 +258,9 @@ public abstract class Tile {
     }
 
     /**
-     * This function returns the state of the tile render stack. If the context is invalid then the
-     * context needs to be updated before the tile is rendered.
+     * This function returns the state of the tile render stack. If the context
+     * is invalid then the context needs to be updated before the tile is
+     * rendered.
      * <p>
      * Should be one of:
      * <ul>
@@ -297,11 +291,11 @@ public abstract class Tile {
     /**
      * Sets if the tile is on screen or not.
      * <p>
-     * This is used with other information to determine if a tile can be disposed of. Valid values
-     * include:
+     * This is used with other information to determine if a tile can be
+     * disposed of. Valid values include:
      * <ul>
-     * <li>ONSCREEN - the tile has been requested by the viewport therefore we assume it is on
-     * screen
+     * <li>ONSCREEN - the tile has been requested by the viewport therefore we
+     * assume it is on screen
      * <li>OFFSCREEN - this tile was not requested by the viewport
      * </ul>
      *
@@ -328,15 +322,14 @@ public abstract class Tile {
     /**
      * Gets the validation state.
      * <p>
-     * This is used in conjunction with the screen state to determine it a tile can be disposed of.
-     * This state is set during a refresh event that is triggered from some gui event. Valid values
-     * include:
+     * This is used in conjunction with the screen state to determine it a tile
+     * can be disposed of. This state is set during a refresh event that is
+     * triggered from some gui event. Valid values include:
      * <ul>
-     * <li>VALIDATED - The tile is validated and ready to be used for painting on the screen. Don't
-     * remove this tile.
+     * <li>VALIDATED - The tile is validated and ready to be used for painting
+     * on the screen. Don't remove this tile.
      * <li>OLD - This tile is an old tile that if off screen can be removed.
      * </ul>
-     *
      *
      * @return
      */
@@ -368,7 +361,9 @@ public abstract class Tile {
      * @return
      */
     public String getId() {
-        System.out.println(this.tileIdentifier.getTileUrl());
+        // System.out.println(this.tileIdentifier.getTileUrl());
         return this.tileIdentifier.getId();
     }
+
+    public abstract URL getTileUrl();
 }

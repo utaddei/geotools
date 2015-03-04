@@ -22,7 +22,6 @@ import org.geotools.tile.WMTSource;
 /**
  * TODO Klassenbeschreibung für 'BingSource'
  *
- *
  * @author Ugo Taddei
  * @version $Revision: $
  */
@@ -31,10 +30,15 @@ public class BingSource extends WMTSource {
     private static final TileFactory tileFactory = new BingTileFactory();
 
     // from https://msdn.microsoft.com/en-us/library/bb259689.aspx
-    public static double[] SCALE_LIST = { 295829355.45, 147914677.73, 73957338.86, 36978669.43,
-        18489334.72, 9244667.36, 4622333.68, 2311166.84, 1155583.42, 577791.71, 288895.85,
-        144447.93, 72223.96, 36111.98, 18055.99, 9028.0, 4514.0, 2257.0, 1128.50, 564.25,
-        282.12, 141.06, 70.53 };
+    public static double[] SCALE_LIST = { 295829355.45, 147914677.73,
+            73957338.86, 36978669.43, 18489334.72, 9244667.36, 4622333.68,
+            2311166.84, 1155583.42, 577791.71, 288895.85, 144447.93, 72223.96,
+            36111.98, 18055.99, 9028.0, 4514.0, 2257.0, 1128.50, 564.25,
+            282.12, 141.06, 70.53 };
+
+    public BingSource(String name) {
+        super(name);
+    }
 
     /**
      * {@inheritDoc}
