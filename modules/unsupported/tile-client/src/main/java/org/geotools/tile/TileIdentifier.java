@@ -38,7 +38,8 @@ import org.geotools.tile.impl.ZoomLevel;
  */
 public abstract class TileIdentifier {
 
-    public static final String ID_DIVIDER = "_"; //$NON-NLS-1$
+    @Deprecated
+    private static final String ID_DIVIDER = "_"; //$NON-NLS-1$
 
     private int x;
 

@@ -18,69 +18,41 @@ package org.geotools.impl.bing;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geotools.ServerTest;
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.referencing.CRS;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
 import org.geotools.tile.impl.bing.BingSource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-import com.vividsolutions.jts.geom.Envelope;
+public class BingServerTest extends ServerTest {
 
-public class BingServerTest {
-
-    private static CoordinateReferenceSystem MERCATOR_CRS;
-
-    private static ReferencedEnvelope DE_EXTENT;
-
-    private static ReferencedEnvelope BR_EXTENT;
-
-    private static ReferencedEnvelope HAWAII_EXTENT;
-
-    private static ReferencedEnvelope NZ_EXTENT;
-
-    private static ReferencedEnvelope TZ_EXTENT;
+    private static Map<String, List<String>> extentNameToUrlList;
 
     @BeforeClass
     public static void beforeClass() {
-        try {
-            MERCATOR_CRS = CRS.decode("EPSG:3857");
+        ServerTest.beforeClass();
 
-        } catch (FactoryException e) {
-            e.printStackTrace();
-            Assert.fail(e.getLocalizedMessage());
-        }
-
-        DE_EXTENT = new ReferencedEnvelope(new Envelope(6, 15, 47, 55),
-                DefaultGeographicCRS.WGS84);
-
-        BR_EXTENT = new ReferencedEnvelope(new Envelope(-75.118389, -33.458236,
-                -32.745828, 5.380718), DefaultGeographicCRS.WGS84);
-
-        HAWAII_EXTENT = new ReferencedEnvelope(new Envelope(-160.635967,
-                -154.483623, 18.651309, 22.598660), DefaultGeographicCRS.WGS84);
-
-        // hmmm failing near date line
-        NZ_EXTENT = new ReferencedEnvelope(new Envelope(164.798799, 179.029327,
-                -47.732492, -33.697613), DefaultGeographicCRS.WGS84);
-
-        TZ_EXTENT = new ReferencedEnvelope(new Envelope(143.880831, 149.505830,
-                -43.700251, -40.338803), DefaultGeographicCRS.WGS84);
+        extentNameToUrlList = new HashMap<String, List<String>>();
+        List<String> expectedUrls_DE = Arrays.asList(new String[] {
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12022",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12021",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12023",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12020" });
+        extentNameToUrlList.put(ServerTest.DE_EXTENT_NAME, expectedUrls_DE);
 
     }
 
     @Test
     public void testGetTilesInExtent_DE() {
 
-        Collection<Tile> tiles = testGetTilesInExtent(DE_EXTENT);
+        Collection<Tile> tiles = testGetTilesInExtent(getExtent(ServerTest.DE_EXTENT_NAME));
 
         Assert.assertEquals(4, tiles.size());
 
@@ -105,5 +77,9 @@ public class BingServerTest {
                 5957345, true, 15);
 
         return tileList.values();
+    }
+
+    public List<String> getUrlList(String extentName) {
+        return extentNameToUrlList.get(extentName);
     }
 }
