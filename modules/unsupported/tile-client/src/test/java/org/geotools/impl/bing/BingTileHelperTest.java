@@ -19,7 +19,7 @@ package org.geotools.impl.bing;
 import java.util.Arrays;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.tile.impl.bing.BingTileHelper;
+import org.geotools.tile.impl.bing.BingTileUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class BingTileHelperTest {
     @Test
     public void testLonLatToPixelXY() {
 
-        int[] pixelXY = BingTileHelper.lonLatToPixelXY(7, 51, 5);
+        int[] pixelXY = BingTileUtil.lonLatToPixelXY(7, 51, 5);
         System.out.println(Arrays.toString(pixelXY));
     }
 
@@ -39,11 +39,11 @@ public class BingTileHelperTest {
 
         int levelOfDetail = 5;
 
-        int[] pixelXY = BingTileHelper.lonLatToPixelXY(coords[0], coords[1],
+        int[] pixelXY = BingTileUtil.lonLatToPixelXY(coords[0], coords[1],
                 levelOfDetail);
         System.out.println(Arrays.toString(pixelXY));
 
-        double[] calculatedCoords = BingTileHelper.pixelXYToLonLat(pixelXY[0],
+        double[] calculatedCoords = BingTileUtil.pixelXYToLonLat(pixelXY[0],
                 pixelXY[1], levelOfDetail);
 
         System.out.println(Arrays.toString(calculatedCoords));
@@ -56,11 +56,11 @@ public class BingTileHelperTest {
 
         int levelOfDetail = 5;
 
-        int[] pixelXY = BingTileHelper.lonLatToPixelXY(coords[0], coords[1],
+        int[] pixelXY = BingTileUtil.lonLatToPixelXY(coords[0], coords[1],
                 levelOfDetail);
-        int[] tileXY = BingTileHelper.pixelXYToTileXY(pixelXY[0], pixelXY[1]);
+        int[] tileXY = BingTileUtil.pixelXYToTileXY(pixelXY[0], pixelXY[1]);
 
-        String quadKey = BingTileHelper.TileXYToQuadKey(tileXY[0], tileXY[1],
+        String quadKey = BingTileUtil.tileXYToQuadKey(tileXY[0], tileXY[1],
                 levelOfDetail);
 
         System.out.println(quadKey);
@@ -73,7 +73,7 @@ public class BingTileHelperTest {
         double[] coords = { 7, 51 };
         int levelOfDetail = 5;
 
-        String quadKey = BingTileHelper.lonLatToQuadKey(coords[0], coords[1],
+        String quadKey = BingTileUtil.lonLatToQuadKey(coords[0], coords[1],
                 levelOfDetail);
 
         Assert.assertEquals("12020", quadKey);
@@ -86,7 +86,7 @@ public class BingTileHelperTest {
         double[] coords = { 7, 51 };
         int levelOfDetail = 5;
 
-        ReferencedEnvelope env = BingTileHelper.getTileBoundingBox(coords[0],
+        ReferencedEnvelope env = BingTileUtil.getTileBoundingBox(coords[0],
                 coords[1], levelOfDetail);
 
         System.out.println(env);

@@ -16,6 +16,9 @@
  */
 package org.geotools.impl.bing;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
@@ -75,22 +78,32 @@ public class BingServerTest {
     }
 
     @Test
-    public void testGetTilesInExtent() {
+    public void testGetTilesInExtent_DE() {
+
+        Collection<Tile> tiles = testGetTilesInExtent(DE_EXTENT);
+
+        Assert.assertEquals(4, tiles.size());
+
+        List<String> expectedUrls = Arrays.asList(new String[] {
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12022",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12021",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12023",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/12020" });
+
+        Assert.assertEquals(expectedUrls.size(), tiles.size());
+
+        for (Tile t : tiles) {
+            expectedUrls.contains(t.getUrl().toString());
+        }
+    }
+
+    private Collection<Tile> testGetTilesInExtent(ReferencedEnvelope extent) {
 
         WMTSource server = new BingSource("nothing");
 
-        // DE_EXTENT = new ReferencedEnvelope(new Envelope(6, 15, 47, 55),
-        // DefaultGeographicCRS.WGS84);
-
-        Map<String, Tile> tileList = server.cutExtentIntoTiles2(DE_EXTENT,
+        Map<String, Tile> tileList = server.cutExtentIntoTiles2(extent,
                 5957345, true, 15);
-        System.out.println("size: " + tileList.size());
 
-        Assert.assertEquals(4, tileList.size());
-
-        for (Tile t : tileList.values()) {
-            System.out.println(t.getId());
-        }
-
+        return tileList.values();
     }
 }

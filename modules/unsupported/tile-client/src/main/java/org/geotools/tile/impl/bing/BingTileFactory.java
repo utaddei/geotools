@@ -40,7 +40,7 @@ class BingTileFactory extends TileFactory {
     public Tile getTileFromCoordinate(double lat, double lon,
             ZoomLevel zoomLevel, WMTSource wmtSource) {
 
-        int[] tileXY = BingTileHelper.lonLatToPixelXY(lon, lat,
+        int[] tileXY = BingTileUtil.lonLatToPixelXY(lon, lat,
                 zoomLevel.getZoomLevel());
 
         int colX = (int) Math.floor(tileXY[0] / BingTile.DEFAULT_TILE_SIZE);

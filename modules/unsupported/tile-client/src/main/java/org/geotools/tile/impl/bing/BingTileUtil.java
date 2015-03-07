@@ -22,54 +22,51 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * TODO Klassenbeschreibung für 'BingTileHelper'
- *
- * Code ported from https://msdn.microsoft.com/en-us/library/bb259689.aspx
+ * TODO Klassenbeschreibung für 'BingTileHelper' Code ported from
+ * https://msdn.microsoft.com/en-us/library/bb259689.aspx
  *
  * @author Ugo Taddei
  * @version $Revision: $
  */
-public final class BingTileHelper {
+public final class BingTileUtil {
 
-    private static final double EarthRadius = 6378137;
+    private static final double MIN_LONGITUDE = -180;
 
-    private static final double MinLatitude = -85.05112878;
+    private static final double MIN_LATITUDE = -85.05112878;
 
-    private static final double MaxLatitude = 85.05112878;
+    private static final double MAX_LONGITUDE = 180;
 
-    private static final double MinLongitude = -180;
+    private static final double MAX_LATITUDE = 85.05112878;
 
-    private static final double MaxLongitude = 180;
-
-    private BingTileHelper() {
+    private BingTileUtil() {
         // utility class
     }
 
     /**
-     * /// <summary> /// Converts a point from latitude/longitude WGS-84 coordinates (in degrees)
-     * /// into pixel XY coordinates at a specified level of detail. /// </summary> /// <param
-     * name="latitude">Latitude of the point, in degrees.</param> /// <param
-     * name="longitude">Longitude of the point, in degrees.</param> /// <param
-     * name="levelOfDetail">Level of detail, from 1 (lowest detail) /// to 23 (highest
-     * detail).</param> /// <param name="pixelX">Output parameter receiving the X coordinate in
-     * pixels.</param> /// <param name="pixelY">Output parameter receiving the Y coordinate in
-     * pixels.</param>
-     *
-     * Diese Methode wird verwendet um... TODO.
+     * /// <summary> /// Converts a point from latitude/longitude WGS-84
+     * coordinates (in degrees) /// into pixel XY coordinates at a specified
+     * level of detail. /// </summary> /// <param name="latitude">Latitude of
+     * the point, in degrees.</param> /// <param name="longitude">Longitude of
+     * the point, in degrees.</param> /// <param name="levelOfDetail">Level of
+     * detail, from 1 (lowest detail) /// to 23 (highest detail).</param> ///
+     * <param name="pixelX">Output parameter receiving the X coordinate in
+     * pixels.</param> /// <param name="pixelY">Output parameter receiving the Y
+     * coordinate in pixels.</param> Diese Methode wird verwendet um... TODO.
      *
      * @param longitude
      * @param latitude
      * @param levelOfDetail
-     *
      * @return
      */
-    public static int[] lonLatToPixelXY(double longitude, double latitude, int levelOfDetail) {
-        double _latitude = clip(latitude, MinLatitude, MaxLatitude);
-        double _longitude = clip(longitude, MinLongitude, MaxLongitude);
+    public static int[] lonLatToPixelXY(double longitude, double latitude,
+            int levelOfDetail) {
+        double _latitude = clip(latitude, MIN_LATITUDE, MAX_LATITUDE);
+        double _longitude = clip(longitude, MIN_LONGITUDE, MAX_LONGITUDE);
 
         double x = (_longitude + 180) / 360;
         double sinLatitude = Math.sin(_latitude * Math.PI / 180);
-        double y = 0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI);
+        double y = 0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude))
+                / (4 * Math.PI);
 
         int mapSize = mapSize(levelOfDetail);
         int pixelX = (int) clip(x * mapSize + 0.5, 0, mapSize - 1);
@@ -79,21 +76,26 @@ public final class BingTileHelper {
     }
 
     // / <summary>
-    // / Converts a pixel from pixel XY coordinates at a specified level of detail
+    // / Converts a pixel from pixel XY coordinates at a specified level of
+    // detail
     // / into latitude/longitude WGS-84 coordinates (in degrees).
     // / </summary>
     // / <param name="pixelX">X coordinate of the point, in pixels.</param>
     // / <param name="pixelY">Y coordinates of the point, in pixels.</param>
     // / <param name="levelOfDetail">Level of detail, from 1 (lowest detail)
     // / to 23 (highest detail).</param>
-    // / <param name="latitude">Output parameter receiving the latitude in degrees.</param>
-    // / <param name="longitude">Output parameter receiving the longitude in degrees.</param>
-    public static double[] pixelXYToLonLat(int pixelX, int pixelY, int levelOfDetail) {
+    // / <param name="latitude">Output parameter receiving the latitude in
+    // degrees.</param>
+    // / <param name="longitude">Output parameter receiving the longitude in
+    // degrees.</param>
+    public static double[] pixelXYToLonLat(int pixelX, int pixelY,
+            int levelOfDetail) {
         double mapSize = mapSize(levelOfDetail);
         double x = (clip(pixelX, 0, mapSize - 1) / mapSize) - 0.5;
         double y = 0.5 - (clip(pixelY, 0, mapSize - 1) / mapSize);
 
-        double latitude = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;
+        double latitude = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI))
+                / Math.PI;
         double longitude = 360 * x;
 
         return new double[] { longitude, latitude };
@@ -111,13 +113,16 @@ public final class BingTileHelper {
     }
 
     // / <summary>
-    // / Converts pixel XY coordinates into tile XY coordinates of the tile containing
+    // / Converts pixel XY coordinates into tile XY coordinates of the tile
+    // containing
     // / the specified pixel.
     // / </summary>
     // / <param name="pixelX">Pixel X coordinate.</param>
     // / <param name="pixelY">Pixel Y coordinate.</param>
-    // / <param name="tileX">Output parameter receiving the tile X coordinate.</param>
-    // / <param name="tileY">Output parameter receiving the tile Y coordinate.</param>
+    // / <param name="tileX">Output parameter receiving the tile X
+    // coordinate.</param>
+    // / <param name="tileY">Output parameter receiving the tile Y
+    // coordinate.</param>
     public static int[] pixelXYToTileXY(int pixelX, int pixelY) {
         int tileX = pixelX / BingTile.DEFAULT_TILE_SIZE;
         int tileY = pixelY / BingTile.DEFAULT_TILE_SIZE;
@@ -126,14 +131,15 @@ public final class BingTileHelper {
     }
 
     // / <summary>
-    // / Converts tile XY coordinates into a QuadKey at a specified level of detail.
+    // / Converts tile XY coordinates into a QuadKey at a specified level of
+    // detail.
     // / </summary>
     // / <param name="tileX">Tile X coordinate.</param>
     // / <param name="tileY">Tile Y coordinate.</param>
     // / <param name="levelOfDetail">Level of detail, from 1 (lowest detail)
     // / to 23 (highest detail).</param>
     // / <returns>A string containing the QuadKey.</returns>
-    public static String TileXYToQuadKey(int tileX, int tileY, int levelOfDetail) {
+    public static String tileXYToQuadKey(int tileX, int tileY, int levelOfDetail) {
         StringBuilder quadKey = new StringBuilder();
         for (int i = levelOfDetail; i > 0; i--) {
             char digit = '0';
@@ -170,12 +176,14 @@ public final class BingTileHelper {
      * @param levelOfDetail
      * @return
      */
-    public static String lonLatToQuadKey(double lon, double lat, int levelOfDetail) {
+    public static String lonLatToQuadKey(double lon, double lat,
+            int levelOfDetail) {
 
-        int[] pixelXY = BingTileHelper.lonLatToPixelXY(lon, lat, levelOfDetail);
-        int[] tileXY = BingTileHelper.pixelXYToTileXY(pixelXY[0], pixelXY[1]);
+        int[] pixelXY = BingTileUtil.lonLatToPixelXY(lon, lat, levelOfDetail);
+        int[] tileXY = BingTileUtil.pixelXYToTileXY(pixelXY[0], pixelXY[1]);
 
-        return BingTileHelper.TileXYToQuadKey(tileXY[0], tileXY[1], levelOfDetail);
+        return BingTileUtil
+                .tileXYToQuadKey(tileXY[0], tileXY[1], levelOfDetail);
     }
 
     /**
@@ -186,7 +194,8 @@ public final class BingTileHelper {
      * @param levelOfDetail
      * @return
      */
-    public static ReferencedEnvelope getTileBoundingBox(double lon, double lat, int levelOfDetail) {
+    public static ReferencedEnvelope getTileBoundingBox(double lon, double lat,
+            int levelOfDetail) {
 
         int[] imageXY = lonLatToPixelXY(lon, lat, levelOfDetail);
 
@@ -196,14 +205,14 @@ public final class BingTileHelper {
         int tileTopLeftPixelX = numberOfTilesX * BingTile.DEFAULT_TILE_SIZE;
         int tileTopLeftPixelY = numberOfTilesY * BingTile.DEFAULT_TILE_SIZE;
 
-        double[] topLeftCoords = pixelXYToLonLat(tileTopLeftPixelX, tileTopLeftPixelY,
-                levelOfDetail);
-        double[] bottomRightCoords = pixelXYToLonLat(
-                tileTopLeftPixelX + BingTile.DEFAULT_TILE_SIZE, tileTopLeftPixelY
+        double[] topLeftCoords = pixelXYToLonLat(tileTopLeftPixelX,
+                tileTopLeftPixelY, levelOfDetail);
+        double[] bottomRightCoords = pixelXYToLonLat(tileTopLeftPixelX
+                + BingTile.DEFAULT_TILE_SIZE, tileTopLeftPixelY
                 + BingTile.DEFAULT_TILE_SIZE, levelOfDetail);
 
-        Envelope envelope = new Envelope(topLeftCoords[0], bottomRightCoords[0], topLeftCoords[1],
-                bottomRightCoords[1]);
+        Envelope envelope = new Envelope(topLeftCoords[0],
+                bottomRightCoords[0], topLeftCoords[1], bottomRightCoords[1]);
 
         return new ReferencedEnvelope(envelope, DefaultGeographicCRS.WGS84);
     }

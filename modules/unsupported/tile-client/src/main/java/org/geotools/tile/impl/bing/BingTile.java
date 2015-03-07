@@ -17,12 +17,15 @@
 package org.geotools.tile.impl.bing;
 
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
 import org.geotools.tile.impl.ZoomLevel;
+import org.geotools.util.logging.Logging;
 
 /**
  * TODO Klassenbeschreibung für 'BingTile'
@@ -34,7 +37,10 @@ public class BingTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
-    private BingTileIdentifier tileName;
+    private static final Logger LOGGER = Logging
+            .getLogger("org.geotools.tile.impl.bing");
+
+    private BingTileIdentifier tileIdentifier;
 
     private WMTSource source;
 
@@ -53,7 +59,7 @@ public class BingTile extends Tile {
         super(BingTile.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE,
                 tileName);
 
-        this.tileName = tileName;
+        this.tileIdentifier = tileName;
         this.source = bingSource;
     }
 
@@ -65,11 +71,12 @@ public class BingTile extends Tile {
     @Override
     public Tile getRightNeighbour() {
 
-        return new BingTile(tileName.getRightNeighbour(), source);
+        return new BingTile(tileIdentifier.getRightNeighbour(), source);
 
     }
 
-    public static ReferencedEnvelope getExtentFromTileName(BingTileIdentifier tileName) {
+    public static ReferencedEnvelope getExtentFromTileName(
+            BingTileIdentifier tileName) {
 
         final int z = tileName.getZoomLevel();
 
@@ -97,13 +104,20 @@ public class BingTile extends Tile {
      */
     public Tile getLowerNeighbour() {
 
-        return new BingTile(tileName.getLowerNeighbour(), source);
+        return new BingTile(tileIdentifier.getLowerNeighbour(), source);
     }
 
     @Override
-    public URL getTileUrl() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public URL getUrl() {
+        String url = this.source.getBaseUrl() + this.tileIdentifier.getCode();
 
+        try {
+            return new URL(url);
+        } catch (Exception e) {
+            final String mesg = "Cannot create URL from " + url;
+            LOGGER.log(Level.SEVERE, mesg, e);
+            throw new RuntimeException(mesg, e);
+        }
+
+    }
 }

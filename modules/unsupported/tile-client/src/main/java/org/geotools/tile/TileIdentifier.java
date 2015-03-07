@@ -22,11 +22,19 @@ import org.geotools.tile.impl.ZoomLevel;
 
 /**
  * A TileIdentifier locates a tile in the grid space of a given tile server by
- * giving its column, row and zoom level. (Class formerly know as
- * "WMTTileName".)
+ * giving its column, row and zoom level. The main resposibility of a
+ * TileIdentifier is to translate the grid values (zoom, x, y) into a "code"
+ * using an algorithm which denotes the tile in a given server implementation. <br/>
+ * For example, OpenStreetMap identifies the tile by z/x/y.png; Bing Maps uses a
+ * quad key representation. <br/>
+ * This class formerly known as "WMTTileName".
  *
  * @author Tobias Sauerwein
  * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/bing/BingTileIdentifier.java $
  */
 public abstract class TileIdentifier {
 
@@ -38,6 +46,7 @@ public abstract class TileIdentifier {
 
     private ZoomLevel zoomLevel;
 
+    @Deprecated
     private WMTSource source;
 
     public TileIdentifier(int x, int y, ZoomLevel zoomLevel, WMTSource source) {

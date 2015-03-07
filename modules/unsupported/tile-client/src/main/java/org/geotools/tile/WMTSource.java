@@ -55,9 +55,11 @@ public abstract class WMTSource {
         setName(name);
     }
 
+    @Deprecated
     protected void init(String resourceId) throws Exception {
     }
 
+    @Deprecated
     private void setName(String name) {
         this.name = name;
     }
@@ -66,6 +68,7 @@ public abstract class WMTSource {
         return name;
     }
 
+    @Deprecated
     public String getId() {
         return getName();
     }

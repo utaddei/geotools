@@ -81,7 +81,7 @@ public class BingSource extends WMTSource {
 
         StringBuffer url = new StringBuffer(getBaseUrl());
 
-        url.append(BingTileHelper.TileXYToQuadKey(x, y, zoomLevel)); //$NON-NLS-1$
+        url.append(BingTileUtil.tileXYToQuadKey(x, y, zoomLevel)); //$NON-NLS-1$
         url.append("?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=69&n=z"); //$NON-NLS-1$
 
         return url.toString();

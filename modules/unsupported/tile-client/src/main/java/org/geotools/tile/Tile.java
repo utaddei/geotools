@@ -365,5 +365,5 @@ public abstract class Tile {
         return this.tileIdentifier.getId();
     }
 
-    public abstract URL getTileUrl();
+    public abstract URL getUrl();
 }
