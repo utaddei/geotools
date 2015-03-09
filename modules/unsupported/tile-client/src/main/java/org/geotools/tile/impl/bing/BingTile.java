@@ -109,7 +109,8 @@ public class BingTile extends Tile {
 
     @Override
     public URL getUrl() {
-        String url = this.source.getBaseUrl() + this.tileIdentifier.getCode();
+        String url = this.source.getBaseUrl().replace("${code}",
+                this.tileIdentifier.getCode());
 
         try {
             return new URL(url);

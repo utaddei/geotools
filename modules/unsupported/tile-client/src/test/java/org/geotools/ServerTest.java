@@ -57,8 +57,8 @@ public abstract class ServerTest {
 
         extentNameToExtent.put(DE_EXTENT_NAME, DE_EXTENT);
 
-        BR_EXTENT = new ReferencedEnvelope(new Envelope(-75.118389, -33.458236,
-                -32.745828, 5.380718), DefaultGeographicCRS.WGS84);
+        BR_EXTENT = new ReferencedEnvelope(new Envelope(-43.72, -42.93, -23.10,
+                -22.63), DefaultGeographicCRS.WGS84);
 
         extentNameToExtent.put(BR_EXTENT_NAME, BR_EXTENT);
 

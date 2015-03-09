@@ -19,7 +19,9 @@ package org.geotools.tile;
 
 import java.util.Arrays;
 
+import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.referencing.CRS;
 import org.geotools.renderer.lite.RendererUtilities;
 import org.geotools.tile.impl.ZoomLevel;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -96,22 +98,74 @@ public class WMTScaleZoomLevelMatcher {
         // cutting
 
         // Transformation: MapCrs -> TileCrs (mostly WGS_84)
-        MathTransform transformMapToTileCrs = WMTRenderJob.getTransformation(
-                crsMap, crsTiles);
+        MathTransform transformMapToTileCrs = getTransformation(crsMap,
+                crsTiles);
 
         // Transformation: TileCrs (mostly WGS_84) -> MapCrs (needed for the
         // blank tiles)
-        MathTransform transformTileCrsToMap = WMTRenderJob.getTransformation(
-                crsTiles, crsMap);
+        MathTransform transformTileCrsToMap = getTransformation(crsTiles,
+                crsMap);
 
         // Get the mapExtent in the tiles CRS
-        ReferencedEnvelope mapExtentTileCrs = WMTRenderJob
-                .getProjectedEnvelope(mapExtentMapCrs, crsTiles,
-                        transformMapToTileCrs);
+        ReferencedEnvelope mapExtentTileCrs = getProjectedEnvelope(
+                mapExtentMapCrs, crsTiles, transformMapToTileCrs);
 
         return new WMTScaleZoomLevelMatcher(crsMap, crsTiles,
                 transformMapToTileCrs, transformTileCrsToMap, mapExtentTileCrs,
                 mapExtentMapCrs, scale);
+    }
+
+    /**
+     * Re-Projects the given envelope to destinationCRS using transformation.
+     *
+     * @param envelope
+     * @param destinationCRS
+     * @param transformation
+     * @return
+     * @throws Exception
+     */
+    public static ReferencedEnvelope getProjectedEnvelope(
+            ReferencedEnvelope envelope,
+            CoordinateReferenceSystem destinationCRS,
+            MathTransform transformation) throws Exception {
+        CoordinateReferenceSystem sourceCRS = envelope
+                .getCoordinateReferenceSystem();
+
+        if (sourceCRS.equals(destinationCRS)) {
+            // no need to reproject
+
+            return envelope;
+        } else {
+            // Reproject envelope: first try JTS.transform, if that fails use
+            // ReferencedEnvelope.transform
+            try {
+
+                return new ReferencedEnvelope(JTS.transform(envelope,
+                        transformation), destinationCRS);
+            } catch (Exception exc) {
+
+                return envelope.transform(destinationCRS, false);
+            }
+        }
+    }
+
+    /**
+     * Returns the transformation to convert between these two CRS's.
+     *
+     * @param fromCRS
+     * @param toCRS
+     * @return
+     * @throws Exception
+     */
+    public static MathTransform getTransformation(
+            CoordinateReferenceSystem fromCRS, CoordinateReferenceSystem toCRS)
+            throws Exception {
+        if (!fromCRS.equals(toCRS)) {
+
+            return CRS.findMathTransform(fromCRS, toCRS);
+        }
+
+        return null;
     }
 
     public CoordinateReferenceSystem getCrsMap() {
@@ -250,13 +304,13 @@ public class WMTScaleZoomLevelMatcher {
     public ReferencedEnvelope projectTileToMapCrs(
             ReferencedEnvelope boundsInTileCrs) throws Exception {
         // assert(boundsInTileCrs.getCoordinateReferenceSystem().equals(crsTiles));
-        return WMTRenderJob.getProjectedEnvelope(boundsInTileCrs, crsMap,
+        return getProjectedEnvelope(boundsInTileCrs, crsMap,
                 transformTileCrsToMap);
     }
 
     public ReferencedEnvelope projectMapToTileCrs(
             ReferencedEnvelope boundsInMapCrs) throws Exception {
-        return WMTRenderJob.getProjectedEnvelope(boundsInMapCrs, crsTiles,
+        return getProjectedEnvelope(boundsInMapCrs, crsTiles,
                 transformMapToTileCrs);
     }
 }

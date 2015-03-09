@@ -378,8 +378,8 @@ public abstract class WMTSource {
 
         Map<String, Tile> tileList = new HashMap<String, Tile>();
 
-        System.out.println("[WMTSource.cutExtentIntoTiles] Zoom-Level: "
-                + zoomLevel.getZoomLevel() + " Extent: " + extent + " ");
+        System.out.println(" Zoom-Level: " + zoomLevel.getZoomLevel()
+                + " Extent: " + extent + " ");
 
         // Let's get the first tile which covers the upper-left corner
         Tile firstTile = tileFactory.getTileFromCoordinate(extent.getMaxY(),
@@ -418,6 +418,8 @@ public abstract class WMTSource {
                     break;
                 }
                 if (tileList.size() > tileLimitWarning) {
+                    System.out.println("TOO MANY TILES " + tileList.size()
+                            + " > " + tileLimitWarning);
                     return Collections.emptyMap();
                 }
             } while (tileList.size() < maxNumberOfTiles);

@@ -38,6 +38,7 @@ public class BingSource extends WMTSource {
 
     public BingSource(String name) {
         super(name);
+
     }
 
     /**
@@ -47,7 +48,7 @@ public class BingSource extends WMTSource {
      */
     @Override
     public String getBaseUrl() {
-        return "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/";
+        return "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
     }
 
     /**

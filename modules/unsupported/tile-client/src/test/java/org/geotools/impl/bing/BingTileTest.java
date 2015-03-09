@@ -43,8 +43,10 @@ public class BingTileTest {
     @Test
     public void testGetURL() {
 
+        System.out.println(this.tile.getUrl());
+
         Assert.assertEquals(
-                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210",
+                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z",
                 this.tile.getUrl().toString());
 
     }

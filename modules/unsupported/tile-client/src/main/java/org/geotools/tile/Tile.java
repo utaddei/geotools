@@ -20,7 +20,10 @@ package org.geotools.tile;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
@@ -151,6 +154,16 @@ public abstract class Tile {
         // getRenderExecutor().dispose();
     }
 
+    public BufferedImage getBufferedImage() {
+        try {
+            return ImageIO.read(getUrl());
+        } catch (IOException e) {
+            // LOGGER.log(Level.FINER, e.getMessage(), e);
+            // TODO
+            return null;
+        }
+    }
+
     /**
      * Gets the SWT image; if the image is null or disposed then it tried to
      * create it before it is returned.
@@ -164,7 +177,8 @@ public abstract class Tile {
      *
      * @return
      */
-    public BufferedImage getBufferedImage() {
+    @Deprecated
+    public BufferedImage _getBufferedImage() {
         BufferedImage buffImage = null;
         try {
 
