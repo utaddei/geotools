@@ -359,8 +359,9 @@ public abstract class WMTSource {
             zoomLevelMatcher = new WMTScaleZoomLevelMatcher(getTileCrs(),
                     getProjectedTileCrs(), CRS.findMathTransform(getTileCrs(),
                             getProjectedTileCrs()), CRS.findMathTransform(
-                            getProjectedTileCrs(), getTileCrs()), _mapExtent,
-                    _mapExtent, scaleFactor);
+                            getProjectedTileCrs(), getTileCrs()), mapExtent,
+                    mapExtent, scaleFactor);
+
         } catch (FactoryException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
