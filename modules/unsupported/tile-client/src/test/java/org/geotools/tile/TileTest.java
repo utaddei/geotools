@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools;
+package org.geotools.tile;
 
 import org.geotools.tile.Tile;
 import org.junit.Test;

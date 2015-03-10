@@ -19,7 +19,6 @@ package org.geotools.impl.bing;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -32,11 +31,11 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import org.geotools.ServerTest;
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapViewport;
+import org.geotools.tile.ServerTest;
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
 import org.geotools.tile.impl.bing.BingSource;
@@ -93,8 +92,8 @@ public class BingServerTest extends ServerTest {
     @Test
     public void testCoverages() {
 
-        testCoverage(DE_EXTENT_NAME, 5000000);
-        testCoverage(BR_EXTENT_NAME, 500000);
+        testCoverage(DE_EXTENT_NAME, 20000000);
+        testCoverage(BR_EXTENT_NAME, 750000);
 
     }
 
@@ -106,7 +105,7 @@ public class BingServerTest extends ServerTest {
 
         WMTSource server = new BingSource("nothing");
         Map<String, Tile> tileList = server.cutExtentIntoTiles2(env, scale,
-                true, 28);
+                true, 128);
 
         Collection<Tile> tiles = tileList.values();
 
@@ -116,8 +115,8 @@ public class BingServerTest extends ServerTest {
                 size.height, BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2d = bufferedImage.createGraphics();
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        // g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+        // RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
         GridCoverage2D coverage = null;
         double[] points = new double[4];

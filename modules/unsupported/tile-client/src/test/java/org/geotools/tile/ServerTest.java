@@ -1,4 +1,4 @@
-package org.geotools;
+package org.geotools.tile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.vividsolutions.jts.geom.Envelope;
 
 public abstract class ServerTest {
 
-    private static CoordinateReferenceSystem MERCATOR_CRS;
+    public static CoordinateReferenceSystem MERCATOR_CRS;
 
     private static ReferencedEnvelope DE_EXTENT;
 

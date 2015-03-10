@@ -34,7 +34,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  * events for when to fetch, dispose, and construct new images. From
  * https://github
  * .com/moovida/uDig/blob/master/plugins/net.refractions.udig.project/src/net/
- * refractions/udig/project /render/Tile.java
+ * refractions/udig/project/render/Tile.java
  *
  * @author GDavis
  */

@@ -49,6 +49,7 @@ public abstract class WMTSource {
     private ObjectCache tiles = ObjectCaches.create("soft", 50); //$NON-NLS-1$
 
     protected WMTSource() {
+
     }
 
     public WMTSource(String name) {

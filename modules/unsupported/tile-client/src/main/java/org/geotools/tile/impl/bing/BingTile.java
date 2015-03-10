@@ -37,8 +37,8 @@ public class BingTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
-    private static final Logger LOGGER = Logging
-            .getLogger("org.geotools.tile.impl.bing");
+    private static final Logger LOGGER = Logging.getLogger(BingTile.class
+            .getPackage().getName());
 
     private BingTileIdentifier tileIdentifier;
 
