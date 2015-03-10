@@ -17,7 +17,7 @@
 package org.geotools.tile.impl.bing;
 
 import org.geotools.tile.TileFactory;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.impl.WebMercatorTileService;
 
 /**
  * TODO Klassenbeschreibung für 'BingSource'
@@ -25,7 +25,7 @@ import org.geotools.tile.WMTSource;
  * @author Ugo Taddei
  * @version $Revision: $
  */
-public class BingSource extends WMTSource {
+public class BingSource extends WebMercatorTileService {
 
     private static final TileFactory tileFactory = new BingTileFactory();
 

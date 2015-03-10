@@ -95,10 +95,7 @@ public abstract class WMTSource {
         return "png"; //$NON-NLS-1$
     }
 
-    public ReferencedEnvelope getBounds() {
-        return new ReferencedEnvelope(-180, 180, -85.051, 85.0511,
-                DefaultGeographicCRS.WGS84);
-    }
+    public abstract ReferencedEnvelope getBounds();
 
     /**
      * Returns the prefix of an tile-url, e.g.: http://tile.openstreetmap.org/
@@ -107,48 +104,14 @@ public abstract class WMTSource {
      */
     public abstract String getBaseUrl();
 
-    // region CRS
-    public static final CoordinateReferenceSystem CRS_EPSG_900913;
-    static {
-        CoordinateReferenceSystem crs = null;
-
-        try {
-            crs = CRS.decode("EPSG:900913"); //$NON-NLS-1$
-        } catch (Exception exc1) {
-
-            String wkt = "PROJCS[\"Google Mercator\"," + //$NON-NLS-1$
-                    "GEOGCS[\"WGS 84\"," + //$NON-NLS-1$
-                    "    DATUM[\"World Geodetic System 1984\"," + //$NON-NLS-1$
-                    "        SPHEROID[\"WGS 84\",6378137.0,298.257223563," + //$NON-NLS-1$
-                    "            AUTHORITY[\"EPSG\",\"7030\"]]," + //$NON-NLS-1$
-                    "        AUTHORITY[\"EPSG\",\"6326\"]]," + //$NON-NLS-1$
-                    "    PRIMEM[\"Greenwich\",0.0," + //$NON-NLS-1$
-                    "        AUTHORITY[\"EPSG\",\"8901\"]]," + //$NON-NLS-1$
-                    "    UNIT[\"degree\",0.017453292519943295]," + //$NON-NLS-1$
-                    "    AXIS[\"Geodetic latitude\",NORTH]," + //$NON-NLS-1$
-                    "    AXIS[\"Geodetic longitude\",EAST]," + //$NON-NLS-1$
-                    "    AUTHORITY[\"EPSG\",\"4326\"]]," + //$NON-NLS-1$
-                    "PROJECTION[\"Mercator_1SP\"]," + //$NON-NLS-1$
-                    "PARAMETER[\"semi_minor\",6378137.0]," + //$NON-NLS-1$
-                    "PARAMETER[\"latitude_of_origin\",0.0]," + //$NON-NLS-1$
-                    "PARAMETER[\"central_meridian\",0.0]," + //$NON-NLS-1$
-                    "PARAMETER[\"scale_factor\",1.0]," + //$NON-NLS-1$
-                    "PARAMETER[\"false_easting\",0.0]," + //$NON-NLS-1$
-                    "PARAMETER[\"false_northing\",0.0]," + //$NON-NLS-1$
-                    "UNIT[\"m\",1.0]," + //$NON-NLS-1$
-                    "AXIS[\"Easting\",EAST]," + //$NON-NLS-1$
-                    "AXIS[\"Northing\",NORTH]," + //$NON-NLS-1$
-                    "AUTHORITY[\"EPSG\",\"900913\"]]"; //$NON-NLS-1$
-
-            try {
-                crs = CRS.parseWKT(wkt);
-            } catch (Exception exc2) {
-                exc2.printStackTrace();
-                crs = DefaultGeographicCRS.WGS84;
-            }
-        }
-
-        CRS_EPSG_900913 = crs;
+    /**
+     * The projection the tiles are drawn in.
+     *
+     * @return
+     */
+    @Deprecated
+    public CoordinateReferenceSystem _getProjectedTileCrs() {
+        return null;// WMTSource.CRS_EPSG_900913;
     }
 
     /**
@@ -156,9 +119,7 @@ public abstract class WMTSource {
      *
      * @return
      */
-    public CoordinateReferenceSystem getProjectedTileCrs() {
-        return WMTSource.CRS_EPSG_900913;
-    }
+    public abstract CoordinateReferenceSystem getProjectedTileCrs();
 
     /**
      * The CRS that is used when the extent is cut in tiles.

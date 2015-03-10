@@ -51,7 +51,8 @@ public class BingTile extends Tile {
      * @param tileName
      */
     public BingTile(int x, int y, ZoomLevel zoomLevel, WMTSource bingSource) {
-        this(new BingTileIdentifier(x, y, zoomLevel, bingSource.getName()), bingSource);
+        this(new BingTileIdentifier(x, y, zoomLevel, bingSource.getName()),
+                bingSource);
     }
 
     public BingTile(BingTileIdentifier tileName, WMTSource bingSource) {
