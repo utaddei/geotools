@@ -75,7 +75,7 @@ public class TileLayer extends DirectLayer {
 
     }
 
-    private void renderTiles(Collection<Tile> tiles, Graphics2D g2d,
+    protected void renderTiles(Collection<Tile> tiles, Graphics2D g2d,
             ReferencedEnvelope viewportExtent,
             AffineTransform worldToImageTransform) {
 
@@ -102,14 +102,28 @@ public class TileLayer extends DirectLayer {
 
             worldToImageTransform.transform(points, 0, points, 0, 2);
 
-            BufferedImage img = tile.getBufferedImage();
+            renderTile(tile, g2d, points);
 
-            g2d.drawImage(img, (int) points[0], (int) points[1],
-                    (int) Math.ceil(points[2] - points[0]),
-                    (int) Math.ceil(points[3] - points[1]), null);
+            // BufferedImage img = getTileImage(tile);
+            //
+            // g2d.drawImage(img, (int) points[0], (int) points[1],
+            // (int) Math.ceil(points[2] - points[0]),
+            // (int) Math.ceil(points[3] - points[1]), null);
 
         }
 
+    }
+
+    private void renderTile(Tile tile, Graphics2D g2d, double[] points) {
+        BufferedImage img = getTileImage(tile);
+
+        g2d.drawImage(img, (int) points[0], (int) points[1],
+                (int) Math.ceil(points[2] - points[0]),
+                (int) Math.ceil(points[3] - points[1]), null);
+    }
+
+    protected BufferedImage getTileImage(Tile tile) {
+        return tile.getBufferedImage();
     }
 
     private int calculateScale(ReferencedEnvelope extent, Rectangle screenArea) {
@@ -122,7 +136,6 @@ public class TileLayer extends DirectLayer {
         } catch (FactoryException | TransformException ex) {
             throw new RuntimeException("Failed to calculate scale", ex);
         }
-        System.out.println(">>> " + scale);
         return scale;
     }
 

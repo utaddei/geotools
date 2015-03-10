@@ -6,9 +6,7 @@ import java.net.URL;
 
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
-import org.geotools.data.ows.WMSCapabilities;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.data.wms.WebMapServer;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.FeatureLayer;
 import org.geotools.map.MapContent;
@@ -59,8 +57,8 @@ public class TileViewer {
         try {
             url = new URL(
                     "http://demo.boundlessgeo.com/geoserver/wms?VERSION=1.1.0&REQUEST=GetCapabilities");
-            WebMapServer wms = new WebMapServer(url);
-            WMSCapabilities capabilities = wms.getCapabilities();
+            // WebMapServer wms = new WebMapServer(url);
+            // WMSCapabilities capabilities = wms.getCapabilities();
             //
 
             // List<Layer> layers = capabilities.getLayerList();
@@ -77,7 +75,8 @@ public class TileViewer {
             SimpleFeatureSource shapefileSource = dataStore.getFeatureSource();
 
             Style shpStyle = SLD.createPolygonStyle(Color.BLUE, null, 0.50f);
-            map.addLayer(new TileLayer(new BingSource("Road")));
+            String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+            map.addLayer(new TileLayer(new BingSource("Road", baseURL)));
             map.addLayer(new FeatureLayer(shapefileSource, shpStyle));
 
         } catch (Exception e) {

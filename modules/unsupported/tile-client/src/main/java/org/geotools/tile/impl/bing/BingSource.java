@@ -36,8 +36,8 @@ public class BingSource extends WMTSource {
             36111.98, 18055.99, 9028.0, 4514.0, 2257.0, 1128.50, 564.25,
             282.12, 141.06, 70.53 };
 
-    public BingSource(String name) {
-        super(name);
+    public BingSource(String name, String baseUrl) {
+        super(name, baseUrl);
 
     }
 

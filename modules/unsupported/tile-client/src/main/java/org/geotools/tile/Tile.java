@@ -22,10 +22,14 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.tile.Tile.RenderState;
+import org.geotools.util.logging.Logging;
 
 /**
  * At tile represents a single space on the map within a specific
@@ -37,8 +41,12 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
  * refractions/udig/project/render/Tile.java
  *
  * @author GDavis
+ * @author Ugo Taddei
  */
 public abstract class Tile {
+
+    private static final Logger LOGGER = Logging.getLogger(Tile.class
+            .getPackage().getName());
 
     /**
      * These are the states of the tile. This state represents if the tile needs
@@ -118,6 +126,11 @@ public abstract class Tile {
     private TileStateChangedListener listener = null;
 
     /**
+     * A listener that is notified when the state is changed.
+     */
+    private BufferedImage tileImage = null;
+
+    /**
      * for locking on the SWT image to prevent creating it multiple times
      */
     // private Object SWTLock = new Object();
@@ -130,7 +143,6 @@ public abstract class Tile {
         this.env = env;
 
         this.tileSize = tileSize;
-
         if (tileId == null) {
             throw new IllegalArgumentException("TileIdentifier cannot be null");
         }
@@ -155,13 +167,34 @@ public abstract class Tile {
     }
 
     public BufferedImage getBufferedImage() {
+
+        if (isImageLoadedOK()) {
+            return this.tileImage;
+        }
+
         try {
-            return ImageIO.read(getUrl());
+            this.tileImage = ImageIO.read(getUrl());
+            setRenderState(RenderState.RENDERED);
+
+            return this.tileImage;
         } catch (IOException e) {
-            // LOGGER.log(Level.FINER, e.getMessage(), e);
-            // TODO
+            LOGGER.log(Level.SEVERE, "Failed to load image: " + this.getUrl(),
+                    e);
+            setRenderState(RenderState.INVALID);
+            // TODO return error image
             return null;
         }
+    }
+
+    /**
+     * Returns true if the image has been correctly loaded and the render state
+     * is {@link RenderState.RENDERED}.
+     * 
+     * @return the tile image
+     */
+    private boolean isImageLoadedOK() {
+        return this.renderState == RenderState.RENDERED
+                && this.tileImage != null;
     }
 
     /**

@@ -40,28 +40,37 @@ import com.vividsolutions.jts.geom.Envelope;
  */
 public abstract class WMTSource {
 
-    private String name;
-
     /**
      * This WeakHashMap acts as a memory cache. Because we are using
      * SoftReference, we won't run out of Memory, the GC will free space.
      **/
     private ObjectCache tiles = ObjectCaches.create("soft", 50); //$NON-NLS-1$
 
-    protected WMTSource() {
+    private String baseURL;
+
+    private String name;
+
+    private WMTSource() {
 
     }
 
-    public WMTSource(String name) {
+    protected WMTSource(String name, String baseURL) {
         setName(name);
+        setBaseURL(baseURL);
+
     }
 
-    @Deprecated
-    protected void init(String resourceId) throws Exception {
+    private void setBaseURL(String baseURL) {
+        if (baseURL == null) {
+            throw new IllegalArgumentException("Base URL cannot be null");
+        }
+        this.baseURL = baseURL;
     }
 
-    @Deprecated
     private void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
         this.name = name;
     }
 

@@ -103,7 +103,8 @@ public class BingServerTest extends ServerTest {
 
         ReferencedEnvelope env = getExtent(envName);
 
-        WMTSource server = new BingSource("nothing");
+        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+        WMTSource server = new BingSource("nothing", baseURL);
         Map<String, Tile> tileList = server.cutExtentIntoTiles2(env, scale,
                 true, 128);
 
@@ -202,7 +203,8 @@ public class BingServerTest extends ServerTest {
     private Collection<Tile> findTilesInExtent(ReferencedEnvelope extent,
             int scale) {
 
-        WMTSource server = new BingSource("nothing");
+        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+        WMTSource server = new BingSource("nothing", baseURL);
         Map<String, Tile> tileList = server.cutExtentIntoTiles2(extent, scale,
                 true, 28);
 

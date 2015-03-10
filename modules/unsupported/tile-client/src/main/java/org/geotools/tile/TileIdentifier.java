@@ -16,8 +16,6 @@
  */
 package org.geotools.tile;
 
-import java.net.URL;
-
 import org.geotools.tile.impl.ZoomLevel;
 
 /**
@@ -47,15 +45,17 @@ public abstract class TileIdentifier {
 
     private ZoomLevel zoomLevel;
 
+    private String sourceName;
+
     @Deprecated
     private WMTSource source;
 
-    public TileIdentifier(int x, int y, ZoomLevel zoomLevel, WMTSource source) {
+    public TileIdentifier(int x, int y, ZoomLevel zoomLevel, String sourceName) {
 
         this.x = x;
         this.y = y;
         this.zoomLevel = zoomLevel;
-        this.source = source;
+        this.sourceName = sourceName;
     }
 
     public int getZoomLevel() {
@@ -70,20 +70,16 @@ public abstract class TileIdentifier {
         return y;
     }
 
+    @Deprecated
     public WMTSource getSource() {
         return source;
     }
 
-    public abstract String getId();
-
-    @Deprecated
-    public String _getId() {
-        return source.getId() + ID_DIVIDER + getZoomLevel() + ID_DIVIDER
-                + getX() + ID_DIVIDER + getY();
+    public String getSourceName() {
+        return this.sourceName;
     }
 
-    @Deprecated
-    public abstract URL getTileUrl();
+    public abstract String getId();
 
     public abstract String getCode();
 

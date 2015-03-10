@@ -18,9 +18,10 @@ public class BingTileTest {
     @Before
     public void beforeTest() {
 
-        WMTSource bingSource = new BingSource("Road");
+        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+        WMTSource bingSource = new BingSource("Road", baseURL);
         BingTileIdentifier tileIdentifier = new BingTileIdentifier(10, 12,
-                new BingZoomLevel(5), bingSource);
+                new BingZoomLevel(5), bingSource.getName());
 
         this.tile = new BingTile(tileIdentifier, bingSource);
 

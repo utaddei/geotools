@@ -1,7 +1,6 @@
 package org.geotools.impl.bing;
 
 import org.geotools.tile.TileIdentifier;
-import org.geotools.tile.impl.bing.BingSource;
 import org.geotools.tile.impl.bing.BingTileIdentifier;
 import org.geotools.tile.impl.bing.BingZoomLevel;
 import org.junit.After;
@@ -16,8 +15,9 @@ public class TileIdentifierTest {
     @Before
     public void beforeTest() {
 
+        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
         this.tileId = new BingTileIdentifier(10, 12, new BingZoomLevel(5),
-                new BingSource("SomeName"));
+                "SomeName");
 
     }
 
