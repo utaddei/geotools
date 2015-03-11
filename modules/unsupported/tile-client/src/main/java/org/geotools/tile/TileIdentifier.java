@@ -19,13 +19,17 @@ package org.geotools.tile;
 import org.geotools.tile.impl.ZoomLevel;
 
 /**
+ * <p>
  * A TileIdentifier locates a tile in the grid space of a given tile server by
  * giving its column, row and zoom level. The main resposibility of a
  * TileIdentifier is to translate the grid values (zoom, x, y) into a "code"
- * using an algorithm which denotes the tile in a given server implementation. <br/>
+ * using an algorithm which denotes the tile in a given server implementation.
+ * </p>
+ * <p>
  * For example, OpenStreetMap identifies the tile by z/x/y.png; Bing Maps uses a
  * quad key representation. <br/>
  * This class formerly known as "WMTTileName".
+ * </p>
  *
  * @author Tobias Sauerwein
  * @author Ugo Taddei
@@ -45,27 +49,68 @@ public abstract class TileIdentifier {
 
     private ZoomLevel zoomLevel;
 
-    private String sourceName;
+    private String serviceName;
 
     @Deprecated
     private WMTSource source;
 
-    public TileIdentifier(int x, int y, ZoomLevel zoomLevel, String sourceName) {
+    public TileIdentifier(int x, int y, ZoomLevel zoomLevel, String serviceName) {
 
-        this.x = x;
-        this.y = y;
-        this.zoomLevel = zoomLevel;
-        this.sourceName = sourceName;
+        setX(x);
+        setY(y);
+        setZomLevel(zoomLevel);
+        this.serviceName = serviceName;
     }
 
+    private void setX(int x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("X must be >= 0.");
+        }
+        this.x = x;
+    }
+
+    private void setY(int y) {
+        if (y < 0) {
+            throw new IllegalArgumentException("X must be >= 0.");
+        }
+        this.y = y;
+    }
+
+    private void setZomLevel(ZoomLevel zoomLevel) {
+        if (zoomLevel == null) {
+            throw new IllegalArgumentException("Zoom level cannot be null");
+        }
+        this.zoomLevel = zoomLevel;
+    }
+
+    /**
+     * Gets the zoom level (aka "level of detail").
+     * <p>
+     * Most tile services offer zoom level in the range between 0 (whole world)
+     * to 22 (street level). The exact range depends on the service
+     * implementation
+     * </p>
+     * 
+     * @return the zoom level
+     */
     public int getZoomLevel() {
         return this.zoomLevel.getZoomLevel();
     }
 
+    /**
+     * Gets the column value of a tile.
+     * 
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Gets the row value of a tile.
+     * 
+     * @return
+     */
     public int getY() {
         return y;
     }
@@ -75,12 +120,45 @@ public abstract class TileIdentifier {
         return source;
     }
 
-    public String getSourceName() {
-        return this.sourceName;
+    public String getServiceName() {
+        return this.serviceName;
     }
 
+    /**
+     * <p>
+     * Gets the id of a tile, which can be used for caching purposes.
+     * </p>
+     * <p>
+     * The id is a file-friendly name (that is, should contains no special
+     * characters such as ".", "/", etc. The id should be build from the code
+     * (which also uniquely identifies a tile, but, in some service
+     * implementation may contain file-unfriendly characters (e.g.
+     * OpenStreetMap: 5/16/10.png).
+     * </p>
+     * <p>
+     * When building an id, you should use the service name as a prefix (e.g.
+     * for OpenStreetMap: "Mapnik", "CycleMap"; Bing Maps: "Road", "Hybrid";
+     * etc) and suffix the id with a file-friendly string (e.g. OpenStreetMap:
+     * "Mapnik_X_Y_Z").
+     * </p>
+     * 
+     * @return
+     */
     public abstract String getId();
 
+    /**
+     * <p>
+     * Gets the code of a tile.
+     * </p>
+     * <p>
+     * The id is a string which uniquely identifies a tile. In some service
+     * implementations this is a quadkey (e.g. Bing Maps: "03123") or the
+     * fragment of the tile image (e.g. OpenStreetMap: 5/16/10.png, for
+     * Z/X/Y.png).
+     * <p/>
+     * 
+     * @return the code
+     */
     public abstract String getCode();
 
     /**

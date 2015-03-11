@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.impl.bing;
+package org.geotools.tile.impl.bing;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -35,7 +35,7 @@ import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.map.MapViewport;
-import org.geotools.tile.ServerTest;
+import org.geotools.tile.ServiceTest;
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
 import org.geotools.tile.impl.bing.BingSource;
@@ -45,13 +45,13 @@ import org.junit.Test;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 
-public class BingServiceTest extends ServerTest {
+public class BingServiceTest extends ServiceTest {
 
     private static Map<String, List<String>> extentNameToUrlList;
 
     @BeforeClass
     public static void beforeClass() {
-        ServerTest.beforeClass();
+        ServiceTest.beforeClass();
 
         extentNameToUrlList = new HashMap<String, List<String>>();
         List<String> expectedUrls_DE = Arrays.asList(new String[] {

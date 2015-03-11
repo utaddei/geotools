@@ -14,7 +14,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 import com.vividsolutions.jts.geom.Envelope;
 
-public abstract class ServerTest {
+public abstract class ServiceTest {
 
     public static CoordinateReferenceSystem MERCATOR_CRS;
 

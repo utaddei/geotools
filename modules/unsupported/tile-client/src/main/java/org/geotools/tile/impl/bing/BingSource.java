@@ -44,16 +44,6 @@ public class BingSource extends WebMercatorTileService {
     /**
      * {@inheritDoc}
      *
-     * @see org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource#getBaseUrl()
-     */
-    @Override
-    public String getBaseUrl() {
-        return "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @see org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource#getScaleList()
      */
     @Override
@@ -68,24 +58,6 @@ public class BingSource extends WebMercatorTileService {
      */
     public TileFactory getTileFactory() {
         return tileFactory;
-    }
-
-    /**
-     * Diese Methode wird verwendet um... TODO.
-     *
-     * @param zoomLevel
-     * @param x
-     * @param y
-     * @return
-     */
-    public String getTileUrl(int zoomLevel, int x, int y) {
-
-        StringBuffer url = new StringBuffer(getBaseUrl());
-
-        url.append(BingTileUtil.tileXYToQuadKey(x, y, zoomLevel)); //$NON-NLS-1$
-        url.append("?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=69&n=z"); //$NON-NLS-1$
-
-        return url.toString();
     }
 
 }

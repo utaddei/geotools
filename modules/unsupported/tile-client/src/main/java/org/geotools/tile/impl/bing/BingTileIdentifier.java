@@ -25,21 +25,18 @@ public class BingTileIdentifier extends TileIdentifier {
 
         return new BingTileIdentifier(TileIdentifier.arithmeticMod(
                 (getX() + 1), zoomLevel.getMaxTilePerRowNumber()), getY(),
-                zoomLevel, getSourceName());
+                zoomLevel, getServiceName());
     }
 
     public BingTileIdentifier getLowerNeighbour() {
 
         return new BingTileIdentifier(getX(), TileIdentifier.arithmeticMod(
                 (getY() + 1), zoomLevel.getMaxTilePerRowNumber()), zoomLevel,
-                getSourceName());
+                getServiceName());
     }
 
     public String getId() {
-        return getSourceName()
-                + "_"
-                + BingTileUtil.tileXYToQuadKey(this.getX(), this.getY(),
-                        this.getZoomLevel());
+        return getServiceName() + "_" + getCode();
     }
 
     public String getCode() {

@@ -25,6 +25,7 @@ import java.util.Map;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.tile.impl.ScaleZoomLevelMatcher;
 import org.geotools.tile.impl.ZoomLevel;
 import org.geotools.util.ObjectCache;
 import org.geotools.util.ObjectCaches;
@@ -102,7 +103,9 @@ public abstract class WMTSource {
      *
      * @return
      */
-    public abstract String getBaseUrl();
+    public String getBaseUrl() {
+        return this.baseURL;
+    }
 
     /**
      * The projection the tiles are drawn in.
@@ -176,7 +179,7 @@ public abstract class WMTSource {
      * @return Zoom-level
      */
     public int getZoomLevelFromMapScale(
-            WMTScaleZoomLevelMatcher zoomLevelMatcher, int scaleFactor) {
+            ScaleZoomLevelMatcher zoomLevelMatcher, int scaleFactor) {
         // fallback scale-list
         double[] scaleList = getScaleList();
         // during the calculations this list caches already calculated scales
@@ -219,7 +222,7 @@ public abstract class WMTSource {
      *        the one the user selected
      * @return
      */
-    public int getZoomLevelToUse(WMTScaleZoomLevelMatcher zoomLevelMatcher,
+    public int getZoomLevelToUse(ScaleZoomLevelMatcher zoomLevelMatcher,
             int scaleFactor, boolean useRecommended) {
         if (useRecommended) {
             return getZoomLevelFromMapScale(zoomLevelMatcher, scaleFactor);
@@ -321,12 +324,12 @@ public abstract class WMTSource {
         TileFactory tileFactory = getTileFactory();
 
         // TODO CRS
-        WMTScaleZoomLevelMatcher zoomLevelMatcher = null;
+        ScaleZoomLevelMatcher zoomLevelMatcher = null;
         try {
 
             System.out.println("Check the _mapExtents here____");
 
-            zoomLevelMatcher = new WMTScaleZoomLevelMatcher(getTileCrs(),
+            zoomLevelMatcher = new ScaleZoomLevelMatcher(getTileCrs(),
                     getProjectedTileCrs(), CRS.findMathTransform(getTileCrs(),
                             getProjectedTileCrs()), CRS.findMathTransform(
                             getProjectedTileCrs(), getTileCrs()), mapExtent,

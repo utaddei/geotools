@@ -36,7 +36,10 @@ public abstract class ZoomLevel {
         setZoomLevel(zoomLevel);
     }
 
-    public void setZoomLevel(int zoomLevel) {
+    private void setZoomLevel(int zoomLevel) {
+        if (zoomLevel < 0) {
+            throw new IllegalArgumentException("Zoom level must be >= 0.");
+        }
         this.zoomLevel = zoomLevel;
 
         this.maxTilePerRowNumber = calculateMaxTilePerRowNumber(zoomLevel);

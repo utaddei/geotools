@@ -1,4 +1,4 @@
-package org.geotools.impl.bing;
+package org.geotools.tile.impl.bing;
 
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
@@ -43,11 +43,6 @@ public class BingTileTest {
 
     @Test
     public void testGetURL() {
-
-        System.out.println(this.tile.getUrl());
-        System.out.println(">" + this.tile.getClass().getPackage().getName()
-                + "<");
-        System.out.println(">" + this.tile.getExtent());
 
         Assert.assertEquals(
                 "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z",

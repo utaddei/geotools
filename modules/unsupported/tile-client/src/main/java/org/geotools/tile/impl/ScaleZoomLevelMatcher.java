@@ -15,7 +15,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.tile;
+package org.geotools.tile.impl;
 
 import java.util.Arrays;
 
@@ -23,7 +23,9 @@ import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.renderer.lite.RendererUtilities;
-import org.geotools.tile.impl.ZoomLevel;
+import org.geotools.tile.Tile;
+import org.geotools.tile.TileFactory;
+import org.geotools.tile.WMTSource;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
@@ -36,7 +38,7 @@ import com.vividsolutions.jts.geom.Coordinate;
  * @author to.srwn
  * @since 1.1.0
  */
-public class WMTScaleZoomLevelMatcher {
+public class ScaleZoomLevelMatcher {
     /** the CRS of the map (MapCrs) */
     private CoordinateReferenceSystem crsMap;
 
@@ -71,7 +73,7 @@ public class WMTScaleZoomLevelMatcher {
         }
     }
 
-    public WMTScaleZoomLevelMatcher(CoordinateReferenceSystem crsMap,
+    public ScaleZoomLevelMatcher(CoordinateReferenceSystem crsMap,
             CoordinateReferenceSystem crsTiles,
             MathTransform transformMapToTileCrs,
             MathTransform transformTileCrsToMap,
@@ -87,7 +89,7 @@ public class WMTScaleZoomLevelMatcher {
         this.scale = scale;
     }
 
-    public static WMTScaleZoomLevelMatcher createMatcher(
+    public static ScaleZoomLevelMatcher createMatcher(
             ReferencedEnvelope mapExtentMapCrs, double scale,
             WMTSource wmtSource) throws Exception {
         CoordinateReferenceSystem crsMap = mapExtentMapCrs
@@ -110,7 +112,7 @@ public class WMTScaleZoomLevelMatcher {
         ReferencedEnvelope mapExtentTileCrs = getProjectedEnvelope(
                 mapExtentMapCrs, crsTiles, transformMapToTileCrs);
 
-        return new WMTScaleZoomLevelMatcher(crsMap, crsTiles,
+        return new ScaleZoomLevelMatcher(crsMap, crsTiles,
                 transformMapToTileCrs, transformTileCrsToMap, mapExtentTileCrs,
                 mapExtentMapCrs, scale);
     }

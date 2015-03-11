@@ -1,4 +1,4 @@
-package org.geotools.impl.bing;
+package org.geotools.tile.impl.bing;
 
 import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.impl.bing.BingTileIdentifier;
@@ -8,14 +8,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TileIdentifierTest {
+public class BingTileIdentifierTest {
 
     private TileIdentifier tileId;
 
     @Before
     public void beforeTest() {
 
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
         this.tileId = new BingTileIdentifier(10, 12, new BingZoomLevel(5),
                 "SomeName");
 
@@ -57,6 +56,11 @@ public class TileIdentifierTest {
     @Test
     public void testGetCode() {
         Assert.assertEquals("03210", this.tileId.getCode());
+    }
+
+    @Test
+    public void testGetServiceName() {
+        Assert.assertEquals("SomeName", this.tileId.getServiceName());
     }
 
 }
