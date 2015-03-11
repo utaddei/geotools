@@ -1,8 +1,7 @@
 package org.geotools.tile.impl.bing;
 
 import org.geotools.tile.TileIdentifier;
-import org.geotools.tile.impl.bing.BingTileIdentifier;
-import org.geotools.tile.impl.bing.BingZoomLevel;
+import org.geotools.tile.impl.WebMercatorZoomLevel;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,8 +14,8 @@ public class BingTileIdentifierTest {
     @Before
     public void beforeTest() {
 
-        this.tileId = new BingTileIdentifier(10, 12, new BingZoomLevel(5),
-                "SomeName");
+        this.tileId = new BingTileIdentifier(10, 12,
+                new WebMercatorZoomLevel(5), "SomeName");
 
     }
 
@@ -45,7 +44,7 @@ public class BingTileIdentifierTest {
 
     @Test
     public void testZ() {
-        Assert.assertEquals(5, this.tileId.getZoomLevel());
+        Assert.assertEquals(5, this.tileId.getZ());
     }
 
     @Test

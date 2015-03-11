@@ -402,6 +402,10 @@ public abstract class Tile {
 
     public abstract Tile getLowerNeighbour();
 
+    public TileIdentifier getTileIdentifier() {
+        return this.tileIdentifier;
+    };
+
     /**
      * Diese Methode wird verwendet um... TODO.
      *

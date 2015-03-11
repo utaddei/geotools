@@ -59,6 +59,13 @@ public abstract class TileIdentifier {
         setX(x);
         setY(y);
         setZomLevel(zoomLevel);
+        setServiceName(serviceName);
+    }
+
+    private void setServiceName(String serviceName) {
+        if (serviceName == null) {
+            throw new IllegalArgumentException("Service name cannot be null");
+        }
         this.serviceName = serviceName;
     }
 
@@ -93,7 +100,7 @@ public abstract class TileIdentifier {
      * 
      * @return the zoom level
      */
-    public int getZoomLevel() {
+    public int getZ() {
         return this.zoomLevel.getZoomLevel();
     }
 
@@ -113,6 +120,15 @@ public abstract class TileIdentifier {
      */
     public int getY() {
         return y;
+    }
+
+    /**
+     * Gets the row value of a tile.
+     * 
+     * @return
+     */
+    public ZoomLevel getZoomLevel() {
+        return this.zoomLevel;
     }
 
     @Deprecated
@@ -176,5 +192,9 @@ public abstract class TileIdentifier {
     public static int arithmeticMod(int a, int b) {
         return (a >= 0) ? a % b : a % b + b;
     }
+
+    public abstract TileIdentifier getRightNeighbour();
+
+    public abstract TileIdentifier getLowerNeighbour();
 
 }

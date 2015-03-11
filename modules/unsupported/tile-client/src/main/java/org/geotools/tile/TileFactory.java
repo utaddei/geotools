@@ -57,23 +57,4 @@ public abstract class TileFactory {
         }
     }
 
-    /**
-     * This method ensures that value is between min and max. If value < min,
-     * min is returned. If value > max, max is returned. Otherwise value.
-     *
-     * @param value
-     * @param min
-     * @param max
-     * @return
-     */
-    public static double moveInRange(double value, double min, double max) {
-        if (value < min) {
-            value = min;
-        } else if (value > max) {
-            value = max;
-        }
-
-        return value;
-    }
-
 }

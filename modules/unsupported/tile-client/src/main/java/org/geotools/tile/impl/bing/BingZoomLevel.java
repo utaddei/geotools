@@ -2,6 +2,7 @@ package org.geotools.tile.impl.bing;
 
 import org.geotools.tile.impl.ZoomLevel;
 
+@Deprecated
 public class BingZoomLevel extends ZoomLevel {
 
     public BingZoomLevel(int zoomLevel) {

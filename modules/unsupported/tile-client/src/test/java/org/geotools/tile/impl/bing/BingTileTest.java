@@ -2,10 +2,7 @@ package org.geotools.tile.impl.bing;
 
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
-import org.geotools.tile.impl.bing.BingSource;
-import org.geotools.tile.impl.bing.BingTile;
-import org.geotools.tile.impl.bing.BingTileIdentifier;
-import org.geotools.tile.impl.bing.BingZoomLevel;
+import org.geotools.tile.impl.WebMercatorZoomLevel;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +18,7 @@ public class BingTileTest {
         String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
         WMTSource bingSource = new BingSource("Road", baseURL);
         BingTileIdentifier tileIdentifier = new BingTileIdentifier(10, 12,
-                new BingZoomLevel(5), bingSource.getName());
+                new WebMercatorZoomLevel(5), bingSource.getName());
 
         this.tile = new BingTile(tileIdentifier, bingSource);
 

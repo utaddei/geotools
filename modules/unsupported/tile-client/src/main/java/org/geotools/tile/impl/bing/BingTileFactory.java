@@ -17,8 +17,8 @@
 package org.geotools.tile.impl.bing;
 
 import org.geotools.tile.Tile;
-import org.geotools.tile.TileFactory;
 import org.geotools.tile.WMTSource;
+import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 
 /**
@@ -27,7 +27,7 @@ import org.geotools.tile.impl.ZoomLevel;
  * @author Ugo Taddei
  * @version $Revision: $
  */
-class BingTileFactory extends TileFactory {
+class BingTileFactory extends WebMercatorTileFactory {
 
     /**
      * {@inheritDoc}
@@ -47,18 +47,6 @@ class BingTileFactory extends TileFactory {
         int rowY = (int) Math.floor(tileXY[1] / BingTile.DEFAULT_TILE_SIZE);
 
         return new BingTile(colX, rowY, zoomLevel, wmtSource);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#getZoomLevel(int,
-     *      org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource)
-     */
-    @Override
-    public ZoomLevel getZoomLevel(int zoomLevel, WMTSource wmtSource) {
-
-        return new BingZoomLevel(zoomLevel);
     }
 
 }

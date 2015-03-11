@@ -20,10 +20,10 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.Tile;
+import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.WMTSource;
+import org.geotools.tile.impl.WebMercatorTile;
 import org.geotools.tile.impl.ZoomLevel;
 import org.geotools.util.logging.Logging;
 
@@ -33,14 +33,14 @@ import org.geotools.util.logging.Logging;
  * @author Ugo Taddei
  * @version $Revision: $
  */
-public class BingTile extends Tile {
+public class BingTile extends WebMercatorTile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
     private static final Logger LOGGER = Logging.getLogger(BingTile.class
             .getPackage().getName());
 
-    private BingTileIdentifier tileIdentifier;
+    // private BingTileIdentifier tileIdentifier;
 
     private WMTSource source;
 
@@ -55,12 +55,11 @@ public class BingTile extends Tile {
                 bingSource);
     }
 
-    public BingTile(BingTileIdentifier tileName, WMTSource bingSource) {
+    public BingTile(TileIdentifier tileName, WMTSource bingSource) {
 
-        super(BingTile.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE,
-                tileName);
+        super(getExtentFromTileName(tileName), DEFAULT_TILE_SIZE, tileName);
 
-        this.tileIdentifier = tileName;
+        // this.tileIdentifier = tileName;
         this.source = bingSource;
     }
 
@@ -71,31 +70,8 @@ public class BingTile extends Tile {
      */
     @Override
     public Tile getRightNeighbour() {
+        return new BingTile(getTileIdentifier().getRightNeighbour(), source);
 
-        return new BingTile(tileIdentifier.getRightNeighbour(), source);
-
-    }
-
-    public static ReferencedEnvelope getExtentFromTileName(
-            BingTileIdentifier tileName) {
-
-        final int z = tileName.getZoomLevel();
-
-        ReferencedEnvelope extent = new ReferencedEnvelope(tile2lon(
-                tileName.getX(), z), tile2lon(tileName.getX() + 1, z),
-                tile2lat(tileName.getY(), z), tile2lat(tileName.getY() + 1, z),
-                DefaultGeographicCRS.WGS84);
-
-        return extent;
-    }
-
-    private static double tile2lon(double x, int z) {
-        return (x / Math.pow(2.0, z) * 360.0) - 180;
-    }
-
-    private static double tile2lat(double y, int z) {
-        double n = Math.PI - ((2.0 * Math.PI * y) / Math.pow(2.0, z));
-        return 180.0 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
     }
 
     /**
@@ -104,15 +80,14 @@ public class BingTile extends Tile {
      * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile#getLowerNeighbour()
      */
     public Tile getLowerNeighbour() {
-
-        return new BingTile(tileIdentifier.getLowerNeighbour(), source);
+        return new BingTile(getTileIdentifier().getLowerNeighbour(), source);
     }
 
     @Override
     public URL getUrl() {
         String url = this.source.getBaseUrl().replace("${code}",
-                this.tileIdentifier.getCode());
-
+                getTileIdentifier().getCode());
+        System.out.println(url);
         try {
             return new URL(url);
         } catch (Exception e) {

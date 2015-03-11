@@ -5,6 +5,7 @@ import org.geotools.tile.impl.ZoomLevel;
 
 public class BingTileIdentifier extends TileIdentifier {
 
+    @Deprecated
     private ZoomLevel zoomLevel;
 
     /**
@@ -24,15 +25,15 @@ public class BingTileIdentifier extends TileIdentifier {
     public BingTileIdentifier getRightNeighbour() {
 
         return new BingTileIdentifier(TileIdentifier.arithmeticMod(
-                (getX() + 1), zoomLevel.getMaxTilePerRowNumber()), getY(),
-                zoomLevel, getServiceName());
+                (getX() + 1), getZoomLevel().getMaxTilePerRowNumber()), getY(),
+                getZoomLevel(), getServiceName());
     }
 
     public BingTileIdentifier getLowerNeighbour() {
 
         return new BingTileIdentifier(getX(), TileIdentifier.arithmeticMod(
-                (getY() + 1), zoomLevel.getMaxTilePerRowNumber()), zoomLevel,
-                getServiceName());
+                (getY() + 1), getZoomLevel().getMaxTilePerRowNumber()),
+                getZoomLevel(), getServiceName());
     }
 
     public String getId() {
@@ -41,6 +42,6 @@ public class BingTileIdentifier extends TileIdentifier {
 
     public String getCode() {
         return BingTileUtil.tileXYToQuadKey(this.getX(), this.getY(),
-                this.getZoomLevel());
+                this.getZ());
     }
 }
