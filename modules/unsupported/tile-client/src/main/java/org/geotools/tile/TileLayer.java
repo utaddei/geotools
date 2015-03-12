@@ -65,9 +65,9 @@ public class TileLayer extends DirectLayer {
 
         BufferedImage mosaickedImage = createImage(viewport.getScreenArea());
         Graphics2D g2d = mosaickedImage.createGraphics();
-
+        long t = System.currentTimeMillis();
         renderTiles(tiles, g2d, viewportExtent, viewport.getWorldToScreen());
-
+        System.out.println("Sync: " + (System.currentTimeMillis() - t));
         this.coverage = gridFactory.create("GridCoverage", mosaickedImage,
                 viewportExtent);
 
@@ -114,7 +114,8 @@ public class TileLayer extends DirectLayer {
 
     }
 
-    private void renderTile(Tile tile, Graphics2D g2d, double[] points) {
+    protected void renderTile(Tile tile, Graphics2D g2d, double[] points) {
+
         BufferedImage img = getTileImage(tile);
 
         g2d.drawImage(img, (int) points[0], (int) points[1],
