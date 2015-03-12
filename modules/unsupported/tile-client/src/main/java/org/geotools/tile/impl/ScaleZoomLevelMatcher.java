@@ -299,7 +299,7 @@ public class ScaleZoomLevelMatcher {
         // get the coordinates of the map centre (in TileCrs)
         Coordinate centerPoint = mapExtentTileCrs.centre();
 
-        return tileFactory.getTileFromCoordinate(centerPoint.y, centerPoint.x,
+        return tileFactory.getTileFromCoordinate(centerPoint.x, centerPoint.y,
                 zoomLevelInstance, wmtSource);
     }
 

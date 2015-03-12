@@ -5,14 +5,9 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
 
 import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;
@@ -129,24 +124,8 @@ public class TileLayer extends DirectLayer {
 
     protected BufferedImage getTileImage(Tile tile) {
 
-        System.out.println("HARDCODED DIR!!!!");
+        return tile.getBufferedImage();
 
-        BufferedImage img = null;
-
-        File dir = new File("/home/ugo/temp");
-        File imgFile = new File(dir, tile.getId() + ".png");
-        try {
-            if (imgFile.exists()) {
-                img = ImageIO.read(imgFile);
-
-            } else {
-                img = tile.getBufferedImage();
-                ImageIO.write(img, "png", imgFile);
-            }
-        } catch (IOException e) {
-            LOGGER.log(Level.FINER, e.getMessage(), e);
-        }
-        return img;
     }
 
     private int calculateScale(ReferencedEnvelope extent, Rectangle screenArea) {

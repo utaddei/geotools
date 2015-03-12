@@ -37,7 +37,7 @@ class BingTileFactory extends WebMercatorTileFactory {
      *      org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTZoomLevel,
      *      org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource)
      */
-    public Tile getTileFromCoordinate(double lat, double lon,
+    public Tile getTileFromCoordinate(double lon, double lat,
             ZoomLevel zoomLevel, WMTSource wmtSource) {
 
         int[] tileXY = BingTileUtil.lonLatToPixelXY(lon, lat,

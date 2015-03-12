@@ -21,7 +21,7 @@ import org.geotools.tile.impl.ZoomLevel;
 
 public abstract class TileFactory {
 
-    public abstract Tile getTileFromCoordinate(double lat, double lon,
+    public abstract Tile getTileFromCoordinate(double lon, double lat,
             ZoomLevel zoomLevel, WMTSource wmtSource);
 
     public abstract ZoomLevel getZoomLevel(int zoomLevel, WMTSource wmtSource);

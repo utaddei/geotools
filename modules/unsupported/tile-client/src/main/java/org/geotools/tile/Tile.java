@@ -21,6 +21,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -29,6 +30,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.tile.Tile.RenderState;
+import org.geotools.tile.util.CachedImageLoader;
 import org.geotools.util.logging.Logging;
 
 /**
@@ -43,7 +46,7 @@ import org.geotools.util.logging.Logging;
  * @author GDavis
  * @author Ugo Taddei
  */
-public abstract class Tile {
+public abstract class Tile implements ImageLoader {
 
     private static final Logger LOGGER = Logging.getLogger(Tile.class
             .getPackage().getName());
@@ -131,11 +134,24 @@ public abstract class Tile {
     private BufferedImage tileImage = null;
 
     /**
+     * A delegate to proved direct loading or load from a disk (cache).
+     */
+    private ImageLoader imageLoader = new CachedImageLoader(new File(
+            "/home/ugo/temp"));
+
+    public void setImageLoader(ImageLoader imageLoader) {
+        if (imageLoader == null) {
+            throw new IllegalArgumentException("ImageLoader cannot be null");
+        }
+        this.imageLoader = imageLoader;
+    }
+
+    /**
      * for locking on the SWT image to prevent creating it multiple times
      */
     // private Object SWTLock = new Object();
 
-    public Tile(ReferencedEnvelope env, int tileSize, TileIdentifier tileId) {
+    public Tile(TileIdentifier tileId, ReferencedEnvelope env, int tileSize) {
 
         if (env == null) {
             throw new IllegalArgumentException("Envelope cannot be null");
@@ -175,7 +191,7 @@ public abstract class Tile {
         }
 
         try {
-            this.tileImage = ImageIO.read(getUrl());
+            this.tileImage = this.imageLoader.loadImageTileImage(this);
             setRenderState(RenderState.RENDERED);
 
             return this.tileImage;
@@ -183,9 +199,12 @@ public abstract class Tile {
             LOGGER.log(Level.SEVERE, "Failed to load image: " + this.getUrl(),
                     e);
             setRenderState(RenderState.INVALID);
-            // TODO return error image
-            return null;
+            return createErrorImage("Failed: " + getId());
         }
+    }
+
+    public BufferedImage loadImageTileImage(Tile tile) throws IOException {
+        return ImageIO.read(getUrl());
     }
 
     /**
@@ -198,14 +217,6 @@ public abstract class Tile {
         return this.renderState == RenderState.RENDERED
                 && this.tileImage != null;
     }
-
-    /**
-     * Gets the SWT image; if the image is null or disposed then it tried to
-     * create it before it is returned.
-     *
-     * @return public Image getSWTImage() { if (swtImage == null ||
-     *         swtImage.isDisposed()) { createSWTImage(); } return swtImage; }
-     */
 
     /**
      * Gets an image showing an error, possibly indicating a failure to load the
@@ -251,14 +262,6 @@ public abstract class Tile {
      */
     public int getTileSize() {
         return tileSize;
-    }
-
-    /**
-     * @return the bounds of the tile
-     */
-    @Deprecated
-    public ReferencedEnvelope getReferencedEnvelope() {
-        return env;
     }
 
     /**

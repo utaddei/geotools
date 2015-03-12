@@ -20,8 +20,8 @@ public class OSMTile extends Tile {
     }
 
     public OSMTile(TileIdentifier tileName, WMTSource osmSource) {
-        super(WebMercatorTileFactory.getExtentFromTileName(tileName),
-                DEFAULT_TILE_SIZE, tileName);
+        super(tileName,
+                WebMercatorTileFactory.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE);
 
         this.source = osmSource;
     }

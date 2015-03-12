@@ -57,8 +57,8 @@ public class BingTile extends Tile {
 
     public BingTile(TileIdentifier tileName, WMTSource bingSource) {
 
-        super(WebMercatorTileFactory.getExtentFromTileName(tileName),
-                DEFAULT_TILE_SIZE, tileName);
+        super(tileName,
+                WebMercatorTileFactory.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE);
 
         // this.tileIdentifier = tileName;
         this.source = bingSource;

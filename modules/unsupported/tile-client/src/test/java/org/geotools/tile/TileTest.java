@@ -97,9 +97,9 @@ public class TileTest {
                 55), DefaultGeographicCRS.WGS84);
         ZoomLevel zoomLevel = new WebMercatorZoomLevel(5);
 
-        return new Tile(env, 256,
-                TileIdentifierTest.createTileIdentifierPrototype(zoomLevel, 10,
-                        12, "SomeService")) {
+        return new Tile(TileIdentifierTest.createTileIdentifierPrototype(zoomLevel, 10,
+                12, "SomeService"), env,
+                256) {
 
             @Override
             public URL getUrl() {

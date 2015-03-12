@@ -357,8 +357,8 @@ public abstract class WMTSource {
                 + " Extent: " + extent + " ");
 
         // Let's get the first tile which covers the upper-left corner
-        Tile firstTile = tileFactory.getTileFromCoordinate(extent.getMaxY(),
-                extent.getMinX(), zoomLevel, this);
+        Tile firstTile = tileFactory.getTileFromCoordinate(extent.getMinX(),
+                extent.getMaxY(), zoomLevel, this);
 
         tileList.put(firstTile.getId(), addTileToList(firstTile));
 
