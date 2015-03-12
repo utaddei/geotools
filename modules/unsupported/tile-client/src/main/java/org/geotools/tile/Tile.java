@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.tile.Tile.RenderState;
 import org.geotools.util.logging.Logging;
 
 /**
@@ -399,10 +398,6 @@ public abstract class Tile {
         }
     }
 
-    public TileIdentifier getTileIdentifier() {
-        return this.tileIdentifier;
-    }
-
     /**
      * Diese Methode wird verwendet um... TODO.
      *
@@ -410,6 +405,15 @@ public abstract class Tile {
      */
     public String getId() {
         return this.tileIdentifier.getId();
+    }
+
+    /**
+     * Diese Methode wird verwendet um... TODO.
+     *
+     * @return
+     */
+    public TileIdentifier getTileIdentifier() {
+        return this.tileIdentifier;
     }
 
     @Override

@@ -20,6 +20,7 @@ package org.geotools.tile.impl;
 /**
  * ClaFoKnAs: WMTZoomLevel
  * 
+ * @author Tobias Sauerwein
  * @author u.taddei
  */
 public abstract class ZoomLevel {
