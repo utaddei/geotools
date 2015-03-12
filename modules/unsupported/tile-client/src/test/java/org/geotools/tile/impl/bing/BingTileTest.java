@@ -3,7 +3,6 @@ package org.geotools.tile.impl.bing;
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
 import org.geotools.tile.impl.WebMercatorZoomLevel;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +20,6 @@ public class BingTileTest {
                 new WebMercatorZoomLevel(5), bingSource.getName());
 
         this.tile = new BingTile(tileIdentifier, bingSource);
-
-    }
-
-    @After
-    public void afterTest() {
-
-        this.tile = null;
 
     }
 

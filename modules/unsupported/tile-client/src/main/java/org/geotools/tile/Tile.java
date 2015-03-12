@@ -17,6 +17,7 @@
  */
 package org.geotools.tile;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -208,31 +209,29 @@ public abstract class Tile {
      */
 
     /**
-     * Gets the buffered image (representing the tile) from the render executor.
+     * Gets an image showing an error, possibly indicating a failure to load the
+     * tile image.
      *
      * @return
      */
-    @Deprecated
-    public BufferedImage _getBufferedImage() {
+    protected BufferedImage createErrorImage(final String message) {
         BufferedImage buffImage = null;
-        try {
 
-            // create an empty image
-            buffImage = new BufferedImage(getTileSize(), getTileSize(),
-                    BufferedImage.TYPE_INT_ARGB);
-            Graphics2D graphics = buffImage.createGraphics();
-            graphics.setColor(Color.WHITE);
-            graphics.fillRect(0, 0, getTileSize(), getTileSize());
-            graphics.setColor(Color.RED);
-            graphics.drawLine(0, 0, getTileSize(), getTileSize());
-            graphics.drawLine(0, getTileSize(), getTileSize(), 0);
-            graphics.drawString(
-                    "No Render Executor For Tile", getTileSize() / 2, getTileSize() / 2); //$NON-NLS-1$
-            graphics.dispose();
+        final int size = getTileSize();
+        buffImage = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        Graphics2D graphics = buffImage.createGraphics();
+        graphics.setComposite(AlphaComposite.getInstance(
+                AlphaComposite.SRC_OVER, (float) 0.5));
+
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, size, size);
+        graphics.setColor(Color.RED);
+        graphics.drawLine(0, 0, size, size);
+        graphics.drawLine(0, size, size, 0);
+        int mesgWidth = graphics.getFontMetrics().stringWidth(message);
+        graphics.drawString(message, (size - mesgWidth) / 2, size / 2);
+        graphics.dispose();
 
         return buffImage;
     }
@@ -410,8 +409,25 @@ public abstract class Tile {
      * @return
      */
     public String getId() {
-        // System.out.println(this.tileIdentifier.getTileUrl());
         return this.tileIdentifier.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getUrl().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Tile)) {
+            return false;
+        }
+
+        return getUrl().equals(((Tile) other).getUrl());
+
     }
 
     public abstract URL getUrl();

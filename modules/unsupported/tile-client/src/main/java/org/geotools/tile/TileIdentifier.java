@@ -193,6 +193,22 @@ public abstract class TileIdentifier {
         return (a >= 0) ? a % b : a % b + b;
     }
 
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof TileIdentifier)) {
+            return false;
+        }
+
+        return this.getId().equals(((TileIdentifier) other).getId());
+
+    }
+
+    public int hashCode() {
+        return this.getId().hashCode();
+    }
+
     public abstract TileIdentifier getRightNeighbour();
 
     public abstract TileIdentifier getLowerNeighbour();

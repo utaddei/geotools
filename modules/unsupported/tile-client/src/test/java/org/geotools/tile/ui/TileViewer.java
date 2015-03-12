@@ -16,7 +16,7 @@ import org.geotools.styling.Style;
 import org.geotools.swing.JMapFrame;
 import org.geotools.tile.ServiceTest;
 import org.geotools.tile.TileLayer;
-import org.geotools.tile.impl.bing.BingSource;
+import org.geotools.tile.impl.osm.OSMService;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 
@@ -79,9 +79,9 @@ public class TileViewer {
 
             Style shpStyle = SLD.createPolygonStyle(Color.BLUE, null, 0.50f);
             String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-            map.addLayer(new TileLayer(new BingSource("Road", baseURL)));
-            // map.addLayer(new TileLayer(new OSMService("Mapnik",
-            // "http://tile.openstreetmap.org/${code}")));
+            // map.addLayer(new TileLayer(new BingSource("Road", baseURL)));
+            map.addLayer(new TileLayer(new OSMService("Mapnik",
+                    "http://tile.openstreetmap.org/")));
 
             map.addLayer(new FeatureLayer(shapefileSource, shpStyle));
 

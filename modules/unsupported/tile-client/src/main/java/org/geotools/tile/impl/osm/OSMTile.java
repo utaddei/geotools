@@ -28,9 +28,7 @@ public class OSMTile extends Tile {
 
     @Override
     public URL getUrl() {
-        String url = this.source.getBaseUrl().replace("${code}",
-                getTileIdentifier().getCode());
-        System.out.println(getTileIdentifier().getCode() + " > " + url);
+        String url = this.source.getBaseUrl() + getTileIdentifier().getCode();
         try {
             return new URL(url);
         } catch (Exception e) {

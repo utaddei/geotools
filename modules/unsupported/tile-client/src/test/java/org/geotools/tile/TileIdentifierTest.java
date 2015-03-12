@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class TileIdentifierTest {
 
-    private TileIdentifier tileId;
+    protected TileIdentifier tileId;
 
     @Before
     public void beforeTest() {
@@ -73,12 +73,12 @@ public class TileIdentifierTest {
 
     @Test
     public void testGetId() {
-        Assert.assertEquals("SomeService_0123", this.tileId.getId());
+        Assert.assertEquals("SomeService_01234xy56789", this.tileId.getId());
     }
 
     @Test
     public void testGetCode() {
-        Assert.assertEquals("0123", this.tileId.getCode());
+        Assert.assertEquals("01234xy56789", this.tileId.getCode());
     }
 
     @Test
@@ -91,9 +91,26 @@ public class TileIdentifierTest {
         return createTestTileIdentifier(new WebMercatorZoomLevel(z), x, y, name);
     };
 
-    private TileIdentifier createTestTileIdentifier(ZoomLevel zoomLevel, int x,
-            int y, String name) {
+    @Test
+    public void testEquals() {
+        Assert.assertTrue(this.tileId.equals(this.tileId));
+        Assert.assertFalse(this.tileId.equals(null));
+        Assert.assertFalse(this.tileId.equals("Blah"));
 
+        TileIdentifier otherTile = createTestTileIdentifier(5, 10, 12,
+                "SomeService");
+        Assert.assertTrue(this.tileId.equals(otherTile));
+        Assert.assertTrue(otherTile.equals(this.tileId));
+
+    }
+
+    protected TileIdentifier createTestTileIdentifier(ZoomLevel zoomLevel,
+            int x, int y, String name) {
+        return createTileIdentifierPrototype(zoomLevel, x, y, name);
+    }
+
+    public static final TileIdentifier createTileIdentifierPrototype(
+            ZoomLevel zoomLevel, int x, int y, String name) {
         return new TileIdentifier(x, y, zoomLevel, name) {
 
             @Override
@@ -103,7 +120,7 @@ public class TileIdentifierTest {
 
             @Override
             public String getCode() {
-                return "0123";
+                return "01234xy56789";
             }
 
             @Override
