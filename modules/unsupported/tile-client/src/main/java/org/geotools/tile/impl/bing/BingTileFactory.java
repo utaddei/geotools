@@ -49,4 +49,16 @@ class BingTileFactory extends WebMercatorTileFactory {
         return new BingTile(colX, rowY, zoomLevel, wmtSource);
     }
 
+    @Override
+    public Tile findRightNeighbour(Tile tile, WMTSource service) {
+        return new BingTile(tile.getTileIdentifier().getRightNeighbour(),
+                service);
+    }
+
+    @Override
+    public Tile findLowerNeighbour(Tile tile, WMTSource service) {
+        return new BingTile(tile.getTileIdentifier().getLowerNeighbour(),
+                service);
+    }
+
 }

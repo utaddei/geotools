@@ -168,6 +168,8 @@ public abstract class Tile {
 
     public BufferedImage getBufferedImage() {
 
+        // TODO REVIEW this getter has side effects!
+
         if (isImageLoadedOK()) {
             return this.tileImage;
         }
@@ -398,13 +400,9 @@ public abstract class Tile {
         }
     }
 
-    public abstract Tile getRightNeighbour();
-
-    public abstract Tile getLowerNeighbour();
-
     public TileIdentifier getTileIdentifier() {
         return this.tileIdentifier;
-    };
+    }
 
     /**
      * Diese Methode wird verwendet um... TODO.

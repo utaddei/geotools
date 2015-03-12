@@ -57,4 +57,15 @@ public class OSMTileFactory extends WebMercatorTileFactory {
         return value;
     }
 
+    public Tile findRightNeighbour(Tile tile, WMTSource service) {
+        return new OSMTile(tile.getTileIdentifier().getRightNeighbour(),
+                service);
+    }
+
+    @Override
+    public Tile findLowerNeighbour(Tile tile, WMTSource service) {
+        return new OSMTile(tile.getTileIdentifier().getLowerNeighbour(),
+                service);
+    }
+
 }

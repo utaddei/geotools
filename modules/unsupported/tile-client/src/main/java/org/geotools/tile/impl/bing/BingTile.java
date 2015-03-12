@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.WMTSource;
-import org.geotools.tile.impl.WebMercatorTile;
+import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 import org.geotools.util.logging.Logging;
 
@@ -33,7 +33,7 @@ import org.geotools.util.logging.Logging;
  * @author Ugo Taddei
  * @version $Revision: $
  */
-public class BingTile extends WebMercatorTile {
+public class BingTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
@@ -57,33 +57,13 @@ public class BingTile extends WebMercatorTile {
 
     public BingTile(TileIdentifier tileName, WMTSource bingSource) {
 
-        super(getExtentFromTileName(tileName), DEFAULT_TILE_SIZE, tileName);
+        super(WebMercatorTileFactory.getExtentFromTileName(tileName),
+                DEFAULT_TILE_SIZE, tileName);
 
         // this.tileIdentifier = tileName;
         this.source = bingSource;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile#getRightNeighbour()
-     */
-    @Override
-    public Tile getRightNeighbour() {
-        return new BingTile(getTileIdentifier().getRightNeighbour(), source);
-
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile#getLowerNeighbour()
-     */
-    public Tile getLowerNeighbour() {
-        return new BingTile(getTileIdentifier().getLowerNeighbour(), source);
-    }
-
-    @Override
     public URL getUrl() {
         String url = this.source.getBaseUrl().replace("${code}",
                 getTileIdentifier().getCode());

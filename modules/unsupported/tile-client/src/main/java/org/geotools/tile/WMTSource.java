@@ -178,8 +178,8 @@ public abstract class WMTSource {
      * @param scaleFactor Scale-factor (0-100)
      * @return Zoom-level
      */
-    public int getZoomLevelFromMapScale(
-            ScaleZoomLevelMatcher zoomLevelMatcher, int scaleFactor) {
+    public int getZoomLevelFromMapScale(ScaleZoomLevelMatcher zoomLevelMatcher,
+            int scaleFactor) {
         // fallback scale-list
         double[] scaleList = getScaleList();
         // during the calculations this list caches already calculated scales
@@ -375,7 +375,9 @@ public abstract class WMTSource {
                 // System.out.println("row");
 
                 // get the next tile right of this one
-                Tile rightNeighbour = movingTile.getRightNeighbour();
+                // Tile rightNeighbour = movingTile.getRightNeighbour();
+                Tile rightNeighbour = tileFactory.findRightNeighbour(
+                        movingTile, this);// movingTile.getRightNeighbour();
 
                 // Check if the new tile is still part of the extent and
                 // that we don't have the first tile again
@@ -400,7 +402,9 @@ public abstract class WMTSource {
             } while (tileList.size() < maxNumberOfTiles);
 
             // get the next tile under the first one of the row
-            Tile lowerNeighbour = firstTileOfRow.getLowerNeighbour();
+            // Tile lowerNeighbour = firstTileOfRow.getLowerNeighbour();
+            Tile lowerNeighbour = tileFactory.findLowerNeighbour(
+                    firstTileOfRow, this);
 
             // Check if the new tile is still part of the extent
             if (extent.intersects((Envelope) lowerNeighbour.getExtent())

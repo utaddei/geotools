@@ -2,12 +2,13 @@ package org.geotools.tile.impl.osm;
 
 import java.net.URL;
 
+import org.geotools.tile.Tile;
 import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.WMTSource;
-import org.geotools.tile.impl.WebMercatorTile;
+import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 
-public class OSMTile extends WebMercatorTile {
+public class OSMTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
@@ -19,18 +20,10 @@ public class OSMTile extends WebMercatorTile {
     }
 
     public OSMTile(TileIdentifier tileName, WMTSource osmSource) {
-        super(WebMercatorTile.getExtentFromTileName(tileName),
+        super(WebMercatorTileFactory.getExtentFromTileName(tileName),
                 DEFAULT_TILE_SIZE, tileName);
 
         this.source = osmSource;
-    }
-
-    public OSMTile getRightNeighbour() {
-        return new OSMTile(getTileIdentifier().getRightNeighbour(), source);
-    }
-
-    public OSMTile getLowerNeighbour() {
-        return new OSMTile(getTileIdentifier().getLowerNeighbour(), source);
     }
 
     @Override

@@ -57,4 +57,8 @@ public abstract class TileFactory {
         }
     }
 
+    public abstract Tile findRightNeighbour(Tile tile, WMTSource service);
+
+    public abstract Tile findLowerNeighbour(Tile tile, WMTSource service);
+
 }

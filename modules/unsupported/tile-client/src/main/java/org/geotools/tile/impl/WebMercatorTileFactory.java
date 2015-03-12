@@ -1,6 +1,9 @@
 package org.geotools.tile.impl;
 
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.TileFactory;
+import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.WMTSource;
 
 public abstract class WebMercatorTileFactory extends TileFactory {
@@ -15,6 +18,21 @@ public abstract class WebMercatorTileFactory extends TileFactory {
     public ZoomLevel getZoomLevel(int zoomLevel, WMTSource wmtSource) {
 
         return new WebMercatorZoomLevel(zoomLevel);
+    }
+
+    public static ReferencedEnvelope getExtentFromTileName(
+            TileIdentifier tileName) {
+    
+        final int z = tileName.getZ();
+    
+        ReferencedEnvelope extent = new ReferencedEnvelope(
+                tile2lon(tileName.getX(), z),
+                tile2lon(tileName.getX() + 1, z),
+                tile2lat(tileName.getY(), z),
+                tile2lat(tileName.getY() + 1, z),
+                DefaultGeographicCRS.WGS84);
+    
+        return extent;
     }
 
     public static final double tile2lon(double x, int z) {

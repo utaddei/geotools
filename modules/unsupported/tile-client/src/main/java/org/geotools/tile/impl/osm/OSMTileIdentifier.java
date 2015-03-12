@@ -22,14 +22,12 @@ public class OSMTileIdentifier extends TileIdentifier {
         return getZ() + separator + getX() + separator + getY() + ".png";
     }
 
-    @Override
     public TileIdentifier getRightNeighbour() {
         return new OSMTileIdentifier(TileIdentifier.arithmeticMod((getX() + 1),
                 getZoomLevel().getMaxTilePerRowNumber()), getY(),
                 getZoomLevel(), getServiceName());
     }
 
-    @Override
     public TileIdentifier getLowerNeighbour() {
         return new OSMTileIdentifier(getX(), TileIdentifier.arithmeticMod(
                 (getY() + 1), getZoomLevel().getMaxTilePerRowNumber()),
