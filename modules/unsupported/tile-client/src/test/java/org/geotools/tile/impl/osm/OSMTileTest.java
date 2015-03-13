@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.tile.impl.bing;
+package org.geotools.tile.impl.osm;
 
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
@@ -23,19 +23,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BingTileTest {
+public class OSMTileTest {
 
     private Tile tile;
 
     @Before
     public void beforeTest() {
 
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-        WMTSource bingSource = new BingSource("Road", baseURL);
-        BingTileIdentifier tileIdentifier = new BingTileIdentifier(10, 12,
-                new WebMercatorZoomLevel(5), bingSource.getName());
+        String baseURL = "http://tile.openstreetmap.org/";
+        WMTSource service = new OSMService("Mapnik", baseURL);
+        OSMTileIdentifier tileIdentifier = new OSMTileIdentifier(10, 12,
+                new WebMercatorZoomLevel(5), service.getName());
 
-        this.tile = new BingTile(tileIdentifier, bingSource);
+        this.tile = new OSMTile(tileIdentifier, service);
 
     }
 
@@ -49,8 +49,8 @@ public class BingTileTest {
     @Test
     public void testGetURL() {
 
-        Assert.assertEquals(
-                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/03210?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z",
+        System.out.println();
+        Assert.assertEquals("http://tile.openstreetmap.org/5/10/12.png",
                 this.tile.getUrl().toString());
 
     }

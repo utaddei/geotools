@@ -51,10 +51,6 @@ public abstract class WMTSource {
 
     private String name;
 
-    private WMTSource() {
-
-    }
-
     protected WMTSource(String name, String baseURL) {
         setName(name);
         setBaseURL(baseURL);
@@ -62,14 +58,14 @@ public abstract class WMTSource {
     }
 
     private void setBaseURL(String baseURL) {
-        if (baseURL == null) {
+        if (baseURL == null || baseURL.isEmpty()) {
             throw new IllegalArgumentException("Base URL cannot be null");
         }
         this.baseURL = baseURL;
     }
 
     private void setName(String name) {
-        if (name == null) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be null");
         }
         this.name = name;

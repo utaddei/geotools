@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.tile.impl.bing;
+package org.geotools.tile.impl.osm;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
@@ -24,10 +24,11 @@ import org.geotools.tile.TileFactoryTest;
 import org.geotools.tile.WMTSource;
 import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.WebMercatorZoomLevel;
+import org.geotools.tile.impl.bing.BingSource;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class BingTileFactoryTest extends TileFactoryTest {
+public class OSMTileFactoryTest extends TileFactoryTest {
 
     @Test
     public void testGetTileFromCoordinate() {
@@ -36,8 +37,8 @@ public class BingTileFactoryTest extends TileFactoryTest {
                 new WebMercatorZoomLevel(5), createSource());
 
         WMTSource service = createSource();
-        BingTile expectedTile = new BingTile(20, 15,
-                new WebMercatorZoomLevel(5), service);
+        OSMTile expectedTile = new OSMTile(20, 15, new WebMercatorZoomLevel(5),
+                service);
         Assert.assertEquals(expectedTile, tile);
 
     }
@@ -46,12 +47,11 @@ public class BingTileFactoryTest extends TileFactoryTest {
     public void testFindRightNeighbour() {
 
         WMTSource service = createSource();
-        BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5),
-                service);
+        OSMTile tile = new OSMTile(20, 15, new WebMercatorZoomLevel(5), service);
 
         Tile neighbour = factory.findRightNeighbour(tile, service);
 
-        BingTile expectedNeighbour = new BingTile(21, 15,
+        OSMTile expectedNeighbour = new OSMTile(21, 15,
                 new WebMercatorZoomLevel(5), service);
 
         Assert.assertEquals(expectedNeighbour, neighbour);
@@ -62,12 +62,11 @@ public class BingTileFactoryTest extends TileFactoryTest {
     public void testFindLowerNeighbour() {
 
         WMTSource service = createSource();
-        BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5),
-                service);
+        OSMTile tile = new OSMTile(20, 15, new WebMercatorZoomLevel(5), service);
 
         Tile neighbour = factory.findLowerNeighbour(tile, service);
 
-        BingTile expectedNeighbour = new BingTile(20, 16,
+        OSMTile expectedNeighbour = new OSMTile(20, 16,
                 new WebMercatorZoomLevel(5), service);
 
         Assert.assertEquals(expectedNeighbour, neighbour);
@@ -77,9 +76,9 @@ public class BingTileFactoryTest extends TileFactoryTest {
     @Test
     public void testGetExtentFromTileName() {
 
-        BingTileIdentifier tileId = new BingTileIdentifier(10, 12,
+        OSMTileIdentifier tileId = new OSMTileIdentifier(10, 12,
                 new WebMercatorZoomLevel(5), "SomeName");
-        BingTile tile = new BingTile(tileId, new BingSource("2", "d"));
+        OSMTile tile = new OSMTile(tileId, new BingSource("2", "d"));
 
         ReferencedEnvelope env = WebMercatorTileFactory
                 .getExtentFromTileName(tileId);
@@ -94,12 +93,12 @@ public class BingTileFactoryTest extends TileFactoryTest {
     }
 
     private WMTSource createSource() {
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-        return new BingSource("Road", baseURL);
+        String baseURL = "http://tile.openstreetmap.org/";
+        return new OSMService("OSM", baseURL);
 
     }
 
     protected TileFactory createFactory() {
-        return new BingTileFactory();
+        return new OSMTileFactory();
     }
 }

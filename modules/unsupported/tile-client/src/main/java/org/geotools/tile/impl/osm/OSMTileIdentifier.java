@@ -1,3 +1,19 @@
+/*
+ *    GeoTools - The Open Source Java GIS Toolkit
+ *    http://geotools.org
+ *
+ *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation;
+ *    version 2.1 of the License.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
 package org.geotools.tile.impl.osm;
 
 import org.geotools.tile.TileIdentifier;
@@ -13,13 +29,23 @@ public class OSMTileIdentifier extends TileIdentifier {
     @Override
     public String getId() {
         final String separator = "_";
-        return getZ() + separator + getX() + separator + getY();
+        StringBuilder sb = createGenericCodeBuilder(separator);
+        sb.insert(0, separator).insert(0, getServiceName());
+        return sb.toString();
     }
 
     @Override
     public String getCode() {
         final String separator = "/";
-        return getZ() + separator + getX() + separator + getY() + ".png";
+        return createGenericCodeBuilder(separator).toString();
+    }
+
+    private StringBuilder createGenericCodeBuilder(final String separator) {
+        StringBuilder sb = new StringBuilder(50);
+        sb.append(getZ()).append(separator).append(getX()).append(separator)
+                .append(getY());
+
+        return sb;
     }
 
     public TileIdentifier getRightNeighbour() {

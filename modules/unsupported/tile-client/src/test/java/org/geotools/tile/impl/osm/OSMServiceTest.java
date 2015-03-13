@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.tile.impl.bing;
+package org.geotools.tile.impl.osm;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,11 +26,12 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.tile.ServiceTest;
 import org.geotools.tile.Tile;
 import org.geotools.tile.WMTSource;
+import org.geotools.tile.impl.bing.BingSource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class BingServiceTest extends ServiceTest {
+public class OSMServiceTest extends ServiceTest {
 
     private static Map<String, List<String>> extentNameToUrlList;
 
@@ -38,24 +39,24 @@ public class BingServiceTest extends ServiceTest {
     public static void beforeClass() {
         ServiceTest.beforeClass();
 
-        String urlPrefix = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/";
-        String urlSuffix = "?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
+        String urlPrefix = "http://tile.openstreetmap.org/";
+        String urlSuffix = ".png";
 
         extentNameToUrlList = new HashMap<String, List<String>>();
-        List<String> expectedIds_DE = Arrays.asList(new String[] { "12022",
-                "12021", "12023", "12020" });
+        List<String> expectedIds_DE = Arrays.asList(new String[] { "5/16/11",
+                "5/17/11", "5/16/10", "5/17/10" });
 
         enrichIdWithNameAndExtension(urlPrefix, expectedIds_DE, urlSuffix);
         extentNameToUrlList.put(DE_EXTENT_NAME, expectedIds_DE);
 
         List<String> expectedIds_BR = Arrays.asList(new String[] {
-                "2112000123", "2112000031", "2112000120", "2112000121",
-                "2112000033", "2112000122" });
+                "10/387/578", "10/389/578", "10/388/578", "10/389/579",
+                "10/388/579", "10/387/579" });
         enrichIdWithNameAndExtension(urlPrefix, expectedIds_BR, urlSuffix);
         extentNameToUrlList.put(BR_EXTENT_NAME, expectedIds_BR);
 
         List<String> expectedIds_HAWAII = Arrays.asList(new String[] {
-                "022211", "022300", "022033", "022122" });
+                "6/4/27", "6/3/28", "6/3/27", "6/4/28" });
 
         enrichIdWithNameAndExtension(urlPrefix, expectedIds_HAWAII, urlSuffix);
         extentNameToUrlList.put(HAWAII_EXTENT_NAME, expectedIds_HAWAII);
@@ -83,14 +84,13 @@ public class BingServiceTest extends ServiceTest {
     @Test
     public void testGetName() {
         WMTSource service = createService();
-        Assert.assertEquals("RoadLayerService", service.getName());
+        Assert.assertEquals("OSM", service.getName());
     }
 
     @Test
     public void testGetBaseURL() {
         WMTSource service = createService();
-        Assert.assertEquals(
-                "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z",
+        Assert.assertEquals("http://tile.openstreetmap.org/",
                 service.getBaseUrl());
     }
 
@@ -101,17 +101,17 @@ public class BingServiceTest extends ServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalNullName() {
-        new BingSource(null, "http://localhost/");
+        new OSMService(null, "http://localhost/");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalURL() {
-        new BingSource("Blah", "");
+        new OSMService("Blah", "");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalNullURL() {
-        new BingSource("Blah", null);
+        new OSMService("Blah", null);
     }
 
     private void testGetTilesInExtent(final String extentName, int scale) {
@@ -120,7 +120,6 @@ public class BingServiceTest extends ServiceTest {
 
         List<String> expectedUrls = getUrlList(extentName);
         Assert.assertEquals(expectedUrls.size(), tiles.size());
-
         for (Tile t : tiles) {
             Assert.assertTrue(expectedUrls.contains(t.getUrl().toString()));
         }
@@ -141,8 +140,8 @@ public class BingServiceTest extends ServiceTest {
     }
 
     private WMTSource createService() {
-        String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-        return new BingSource("RoadLayerService", baseURL);
+        String baseURL = "http://tile.openstreetmap.org/";
+        return new OSMService("OSM", baseURL);
 
     }
 }

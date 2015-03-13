@@ -57,8 +57,8 @@ public class BingTile extends Tile {
 
     public BingTile(TileIdentifier tileName, WMTSource bingSource) {
 
-        super(tileName,
-                WebMercatorTileFactory.getExtentFromTileName(tileName), DEFAULT_TILE_SIZE);
+        super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName),
+                DEFAULT_TILE_SIZE);
 
         // this.tileIdentifier = tileName;
         this.source = bingSource;
@@ -67,7 +67,6 @@ public class BingTile extends Tile {
     public URL getUrl() {
         String url = this.source.getBaseUrl().replace("${code}",
                 getTileIdentifier().getCode());
-        System.out.println(url);
         try {
             return new URL(url);
         } catch (Exception e) {
