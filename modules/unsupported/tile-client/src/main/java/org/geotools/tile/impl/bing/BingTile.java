@@ -42,7 +42,7 @@ public class BingTile extends Tile {
 
     // private BingTileIdentifier tileIdentifier;
 
-    private TileService source;
+    private TileService service;
 
     /**
      * Konstruktor für eine neue BingTile.
@@ -50,22 +50,22 @@ public class BingTile extends Tile {
      * @param extent
      * @param tileName
      */
-    public BingTile(int x, int y, ZoomLevel zoomLevel, TileService bingSource) {
-        this(new BingTileIdentifier(x, y, zoomLevel, bingSource.getName()),
-                bingSource);
+    public BingTile(int x, int y, ZoomLevel zoomLevel, TileService service) {
+        this(new BingTileIdentifier(x, y, zoomLevel, service.getName()),
+                service);
     }
 
-    public BingTile(TileIdentifier tileName, TileService bingSource) {
+    public BingTile(TileIdentifier tileName, TileService service) {
 
         super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName),
                 DEFAULT_TILE_SIZE);
 
         // this.tileIdentifier = tileName;
-        this.source = bingSource;
+        this.service = service;
     }
 
     public URL getUrl() {
-        String url = this.source.getBaseUrl().replace("${code}",
+        String url = this.service.getBaseUrl().replace("${code}",
                 getTileIdentifier().getCode());
         try {
             return new URL(url);

@@ -24,12 +24,6 @@ import org.geotools.tile.TileService;
 
 public abstract class WebMercatorTileFactory extends TileFactory {
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#getZoomLevel(int,
-     *      org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource)
-     */
     @Override
     public ZoomLevel getZoomLevel(int zoomLevel, TileService wmtSource) {
 

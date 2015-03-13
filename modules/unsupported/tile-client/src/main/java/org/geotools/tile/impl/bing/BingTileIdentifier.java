@@ -5,9 +5,6 @@ import org.geotools.tile.impl.ZoomLevel;
 
 public class BingTileIdentifier extends TileIdentifier {
 
-    @Deprecated
-    private ZoomLevel zoomLevel;
-
     /**
      * Konstruktor für eine neue BingTileName.
      *
@@ -17,9 +14,8 @@ public class BingTileIdentifier extends TileIdentifier {
      * @param source
      */
     public BingTileIdentifier(int x, int y, ZoomLevel zoomLevel,
-            String sourceName) {
-        super(x, y, zoomLevel, sourceName);
-        this.zoomLevel = zoomLevel;
+            String serviceName) {
+        super(x, y, zoomLevel, serviceName);
     }
 
     public BingTileIdentifier getRightNeighbour() {

@@ -20,7 +20,7 @@ import org.geotools.tile.TileFactory;
 import org.geotools.tile.impl.WebMercatorTileService;
 
 /**
- * TODO Klassenbeschreibung für 'BingSource'
+ * TODO Klassenbeschreibung für 'BingService'
  *
  * @author Ugo Taddei
  * @version $Revision: $
@@ -44,7 +44,7 @@ public class BingService extends WebMercatorTileService {
     /**
      * {@inheritDoc}
      *
-     * @see org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource#getScaleList()
+     * @see org.geotools.tile.TileService
      */
     @Override
     public double[] getScaleList() {

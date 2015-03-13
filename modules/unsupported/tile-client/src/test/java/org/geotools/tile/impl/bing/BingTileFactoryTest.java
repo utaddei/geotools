@@ -33,9 +33,9 @@ public class BingTileFactoryTest extends TileFactoryTest {
     public void testGetTileFromCoordinate() {
 
         Tile tile = factory.getTileFromCoordinate(51, 7,
-                new WebMercatorZoomLevel(5), createSource());
+                new WebMercatorZoomLevel(5), createService());
 
-        TileService service = createSource();
+        TileService service = createService();
         BingTile expectedTile = new BingTile(20, 15,
                 new WebMercatorZoomLevel(5), service);
         Assert.assertEquals(expectedTile, tile);
@@ -45,7 +45,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindRightNeighbour() {
 
-        TileService service = createSource();
+        TileService service = createService();
         BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5),
                 service);
 
@@ -61,7 +61,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindLowerNeighbour() {
 
-        TileService service = createSource();
+        TileService service = createService();
         BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5),
                 service);
 
@@ -93,7 +93,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
 
     }
 
-    private TileService createSource() {
+    private TileService createService() {
         String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
         return new BingService("Road", baseURL);
 

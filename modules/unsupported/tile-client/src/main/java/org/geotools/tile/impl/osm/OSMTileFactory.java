@@ -33,7 +33,7 @@ public class OSMTileFactory extends WebMercatorTileFactory {
      *      org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource)
      */
     public Tile getTileFromCoordinate(double lon, double lat,
-            ZoomLevel zoomLevel, TileService wmtSource) {
+            ZoomLevel zoomLevel, TileService service) {
         lat = TileFactory.normalizeDegreeValue(lat, 90);
         lon = TileFactory.normalizeDegreeValue(lon, 180);
 
@@ -51,7 +51,7 @@ public class OSMTileFactory extends WebMercatorTileFactory {
                 / Math.PI)
                 / 2 * (1 << zoomLevel.getZoomLevel()));
 
-        return new OSMTile(xTile, yTile, zoomLevel, wmtSource);
+        return new OSMTile(xTile, yTile, zoomLevel, service);
     }
 
     /**

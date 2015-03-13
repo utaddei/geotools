@@ -34,9 +34,9 @@ public class OSMTileFactoryTest extends TileFactoryTest {
     public void testGetTileFromCoordinate() {
 
         Tile tile = factory.getTileFromCoordinate(51, 7,
-                new WebMercatorZoomLevel(5), createSource());
+                new WebMercatorZoomLevel(5), createService());
 
-        TileService service = createSource();
+        TileService service = createService();
         OSMTile expectedTile = new OSMTile(20, 15, new WebMercatorZoomLevel(5),
                 service);
         Assert.assertEquals(expectedTile, tile);
@@ -46,7 +46,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindRightNeighbour() {
 
-        TileService service = createSource();
+        TileService service = createService();
         OSMTile tile = new OSMTile(20, 15, new WebMercatorZoomLevel(5), service);
 
         Tile neighbour = factory.findRightNeighbour(tile, service);
@@ -61,7 +61,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindLowerNeighbour() {
 
-        TileService service = createSource();
+        TileService service = createService();
         OSMTile tile = new OSMTile(20, 15, new WebMercatorZoomLevel(5), service);
 
         Tile neighbour = factory.findLowerNeighbour(tile, service);
@@ -92,7 +92,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
 
     }
 
-    private TileService createSource() {
+    private TileService createService() {
         String baseURL = "http://tile.openstreetmap.org/";
         return new OSMService("OSM", baseURL);
 

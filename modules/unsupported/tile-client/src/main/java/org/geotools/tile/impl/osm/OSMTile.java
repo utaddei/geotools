@@ -28,23 +28,22 @@ public class OSMTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
-    private TileService source;
+    private TileService service;
 
-    public OSMTile(int x, int y, ZoomLevel zoomLevel, TileService osmSource) {
-        this(new OSMTileIdentifier(x, y, zoomLevel, osmSource.getName()),
-                osmSource);
+    public OSMTile(int x, int y, ZoomLevel zoomLevel, TileService service) {
+        this(new OSMTileIdentifier(x, y, zoomLevel, service.getName()), service);
     }
 
-    public OSMTile(TileIdentifier tileName, TileService osmSource) {
+    public OSMTile(TileIdentifier tileName, TileService service) {
         super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName),
                 DEFAULT_TILE_SIZE);
 
-        this.source = osmSource;
+        this.service = service;
     }
 
     @Override
     public URL getUrl() {
-        String url = this.source.getBaseUrl() + getTileIdentifier().getCode()
+        String url = this.service.getBaseUrl() + getTileIdentifier().getCode()
                 + ".png";
         try {
             return new URL(url);

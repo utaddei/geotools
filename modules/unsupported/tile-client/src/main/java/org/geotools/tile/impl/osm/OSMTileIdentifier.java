@@ -22,8 +22,8 @@ import org.geotools.tile.impl.ZoomLevel;
 public class OSMTileIdentifier extends TileIdentifier {
 
     public OSMTileIdentifier(int x, int y, ZoomLevel zoomLevel,
-            String sourceName) {
-        super(x, y, zoomLevel, sourceName);
+            String serviceName) {
+        super(x, y, zoomLevel, serviceName);
     }
 
     @Override

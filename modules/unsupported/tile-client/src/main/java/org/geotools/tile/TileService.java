@@ -108,16 +108,6 @@ public abstract class TileService {
      *
      * @return
      */
-    @Deprecated
-    public CoordinateReferenceSystem _getProjectedTileCrs() {
-        return null;// WMTSource.CRS_EPSG_900913;
-    }
-
-    /**
-     * The projection the tiles are drawn in.
-     *
-     * @return
-     */
     public abstract CoordinateReferenceSystem getProjectedTileCrs();
 
     /**
@@ -129,9 +119,6 @@ public abstract class TileService {
         return DefaultGeographicCRS.WGS84;
     }
 
-    // endregion
-
-    // region Methods to access the tile-list (cache)
     public boolean listContainsTile(String tileId) {
         return !(tiles.peek(tileId) == null || tiles.get(tileId) == null);
     }

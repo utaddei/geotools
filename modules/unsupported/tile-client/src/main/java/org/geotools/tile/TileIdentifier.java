@@ -51,9 +51,6 @@ public abstract class TileIdentifier {
 
     private String serviceName;
 
-    @Deprecated
-    private TileService source;
-
     public TileIdentifier(int x, int y, ZoomLevel zoomLevel, String serviceName) {
 
         setX(x);
@@ -129,11 +126,6 @@ public abstract class TileIdentifier {
      */
     public ZoomLevel getZoomLevel() {
         return this.zoomLevel;
-    }
-
-    @Deprecated
-    public TileService getSource() {
-        return source;
     }
 
     public String getServiceName() {

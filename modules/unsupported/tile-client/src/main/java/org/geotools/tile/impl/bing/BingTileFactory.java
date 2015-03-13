@@ -38,7 +38,7 @@ class BingTileFactory extends WebMercatorTileFactory {
      *      org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource)
      */
     public Tile getTileFromCoordinate(double lon, double lat,
-            ZoomLevel zoomLevel, TileService wmtSource) {
+            ZoomLevel zoomLevel, TileService service) {
 
         int[] tileXY = BingTileUtil.lonLatToPixelXY(lon, lat,
                 zoomLevel.getZoomLevel());
@@ -46,7 +46,7 @@ class BingTileFactory extends WebMercatorTileFactory {
         int colX = (int) Math.floor(tileXY[0] / BingTile.DEFAULT_TILE_SIZE);
         int rowY = (int) Math.floor(tileXY[1] / BingTile.DEFAULT_TILE_SIZE);
 
-        return new BingTile(colX, rowY, zoomLevel, wmtSource);
+        return new BingTile(colX, rowY, zoomLevel, service);
     }
 
     @Override
