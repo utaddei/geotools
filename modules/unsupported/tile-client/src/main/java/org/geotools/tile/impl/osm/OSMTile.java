@@ -3,6 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
+ *    (C) 2004-2008, Refractions Research Inc.
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -24,6 +25,16 @@ import org.geotools.tile.TileService;
 import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 
+/**
+ * The tile implementation for the OpenStreetMap family
+ * 
+ * @author Tobias Sauerwein
+ * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/osm/OSMTile.java $
+ */
 public class OSMTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;

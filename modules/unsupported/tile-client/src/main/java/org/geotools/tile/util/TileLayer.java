@@ -38,9 +38,21 @@ import org.geotools.util.logging.Logging;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 
+/**
+ * <p>
+ * TileLayer is a direct map layer that does the mosaicking work for tiles of a
+ * given tile service.
+ * </p>
+ * 
+ * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/util/TileLayer.java $
+ */
 public class TileLayer extends DirectLayer {
 
-    private static final Logger LOGGER = Logging.getLogger(DirectLayer.class
+    private static final Logger LOGGER = Logging.getLogger(TileLayer.class
             .getPackage().getName());
 
     private static final GridCoverageFactory gridFactory = new GridCoverageFactory();
@@ -70,6 +82,8 @@ public class TileLayer extends DirectLayer {
     public void draw(Graphics2D graphics, MapContent map,
             MapViewport theViewport) {
 
+        LOGGER.fine("Started drawing");
+
         final MapViewport viewport = new MapViewport(theViewport);
 
         final ReferencedEnvelope viewportExtent = viewport.getBounds();
@@ -89,6 +103,8 @@ public class TileLayer extends DirectLayer {
                 viewportExtent);
 
         graphics.drawImage(mosaickedImage, 0, 0, null);
+
+        LOGGER.fine("Drawing done");
 
     }
 
@@ -120,12 +136,6 @@ public class TileLayer extends DirectLayer {
             worldToImageTransform.transform(points, 0, points, 0, 2);
 
             renderTile(tile, g2d, points);
-
-            // BufferedImage img = getTileImage(tile);
-            //
-            // g2d.drawImage(img, (int) points[0], (int) points[1],
-            // (int) Math.ceil(points[2] - points[0]),
-            // (int) Math.ceil(points[3] - points[1]), null);
 
         }
 

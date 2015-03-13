@@ -36,9 +36,10 @@ import com.vividsolutions.jts.geom.Envelope;
  * </p>
  *
  * @author Ugo Taddei
- * @since 12.
- * @version 12.0
- * @source $URL$
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/bing/BingTileUtil.java $
  */
 public final class BingTileUtil {
 

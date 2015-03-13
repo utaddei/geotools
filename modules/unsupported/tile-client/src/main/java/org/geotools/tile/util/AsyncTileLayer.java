@@ -29,11 +29,21 @@ import org.geotools.tile.TileService;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 
-public class AsyncCachedTileLayer extends TileLayer {
+/**
+ * This Layer is an attempt to speed rendering by using a CountDownLatch and
+ * threads to render each tile. The performance improvement is minimal, though.
+ * 
+ * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/util/AsyncTileLayer.java $
+ */
+public class AsyncTileLayer extends TileLayer {
 
     private CountDownLatch countDownLatch;
 
-    public AsyncCachedTileLayer(TileService service) {
+    public AsyncTileLayer(TileService service) {
         super(service);
     }
 
@@ -73,7 +83,7 @@ public class AsyncCachedTileLayer extends TileLayer {
                         (int) Math.ceil(points[2] - points[0]),
                         (int) Math.ceil(points[3] - points[1]), null);
 
-                AsyncCachedTileLayer.this.countDownLatch.countDown();
+                AsyncTileLayer.this.countDownLatch.countDown();
             }
         };
         new Thread(r).start();

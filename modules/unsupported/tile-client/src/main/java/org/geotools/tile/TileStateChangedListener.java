@@ -25,6 +25,10 @@ package org.geotools.tile;
  *
  * @author Emily Gouge (Refractions Research)
  * @since 12.0
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/TileStateChangedListener.java $
  */
 public interface TileStateChangedListener {
     /**

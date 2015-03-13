@@ -18,10 +18,13 @@
 package org.geotools.tile.impl;
 
 /**
- * ClaFoKnAs: WMTZoomLevel
+ * ZoomLevel is a class in dire need of documentation.
  * 
  * @author Tobias Sauerwein
- * @author u.taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/ZoomLevel.java $
  */
 public abstract class ZoomLevel {
 

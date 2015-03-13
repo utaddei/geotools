@@ -44,7 +44,10 @@ import com.vividsolutions.jts.geom.Envelope;
  * 
  * @author to.srwn
  * @author Ugo Taddei
- * @since 1.1.0
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/TileService.java $
  */
 public abstract class TileService {
 

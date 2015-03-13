@@ -36,7 +36,10 @@ import com.vividsolutions.jts.geom.Coordinate;
  * extent.
  *
  * @author to.srwn
- * @since 1.1.0
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/ScaleZoomLevelMatcher.java $
  */
 public class ScaleZoomLevelMatcher {
     /** the CRS of the map (MapCrs) */

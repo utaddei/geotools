@@ -27,6 +27,18 @@ import org.geotools.util.logging.Logging;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
+/**
+ * <p>
+ * The WebMercatorTileService is an abstract class that holds some of the tile
+ * service logic for Mercator-based tile services.
+ * </p>
+ * 
+ * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/WebMercatorTileService.java $
+ */
 public abstract class WebMercatorTileService extends TileService {
 
     private static final Logger LOGGER = Logging

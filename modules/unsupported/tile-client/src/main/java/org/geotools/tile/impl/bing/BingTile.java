@@ -28,10 +28,14 @@ import org.geotools.tile.impl.ZoomLevel;
 import org.geotools.util.logging.Logging;
 
 /**
- * TODO Klassenbeschreibung für 'BingTile'
- *
+ * The BingTile, for the Bing Maps family
+ * 
+ * @author Tobias Sauerwein
  * @author Ugo Taddei
- * @version $Revision: $
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/bing/BingTileIdentifier.java $
  */
 public class BingTile extends Tile {
 
@@ -40,15 +44,14 @@ public class BingTile extends Tile {
     private static final Logger LOGGER = Logging.getLogger(BingTile.class
             .getPackage().getName());
 
-    // private BingTileIdentifier tileIdentifier;
-
     private TileService service;
 
     /**
-     * Konstruktor für eine neue BingTile.
+     * Creates a new BingTile.
      *
      * @param extent
      * @param tileName
+     * @param service
      */
     public BingTile(int x, int y, ZoomLevel zoomLevel, TileService service) {
         this(new BingTileIdentifier(x, y, zoomLevel, service.getName()),

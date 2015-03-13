@@ -36,7 +36,7 @@ import org.geotools.tile.impl.ZoomLevel;
  * @since 12
  * @source $URL:
  *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
- *         /src/main/java/org/geotools/tile/impl/bing/BingTileIdentifier.java $
+ *         /src/main/java/org/geotools/tile/impl/TileIdentifier.java $
  */
 public abstract class TileIdentifier {
 

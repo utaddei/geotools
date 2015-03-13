@@ -20,10 +20,31 @@ import org.geotools.tile.TileFactory;
 import org.geotools.tile.impl.WebMercatorTileService;
 
 /**
- * TODO Klassenbeschreibung für 'BingService'
+ * <p>
+ * The Bing tile service.
+ * </p>
+ * <p>
+ * Note that Bing requires a key, which you can generate <a
+ * href="http://www.microsoft.com/maps/create-a-bing-maps-key.aspx">here</a>.
+ * This service follows the documentation for the <a
+ * href="https://msdn.microsoft.com/en-us/library/ff701721.aspx">Imagery API</a>
+ * </p>
+ * <p>
+ * In order for the BingService to work correctly, you must use the URL fragment
+ * provided by <a
+ * href="https://msdn.microsoft.com/en-us/library/ff701716.aspx">Get Imagery
+ * Metadata</a>. In particular, you need to instantiate a BingService with a URL
+ * template such as
+ * <code>http://ecn.subdomain.tiles.virtualearth.net/tiles/r${code}.jpeg?key=YOUR_BING_KEY&g=129&mkt={culture}&shading=hill&stl=H</code>
+ * . The "${code}" value will be substituted by the tile code (the quadkey) when
+ * the BingTile creates its URL.
+ * </p>
  *
  * @author Ugo Taddei
- * @version $Revision: $
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/bing/BingService.java $
  */
 public class BingService extends WebMercatorTileService {
 

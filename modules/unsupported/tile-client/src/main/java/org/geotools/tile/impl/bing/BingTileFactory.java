@@ -22,21 +22,16 @@ import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 
 /**
- * TODO Klassenbeschreibung für 'BingTileFactory'
+ * The tile factory for Bing.
  *
  * @author Ugo Taddei
- * @version $Revision: $
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/bing/BingTileFactory.java $
  */
 class BingTileFactory extends WebMercatorTileFactory {
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#findTileAtCoordinate(double,
-     *      double,
-     *      org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTZoomLevel,
-     *      org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource)
-     */
     public Tile findTileAtCoordinate(double lon, double lat,
             ZoomLevel zoomLevel, TileService service) {
 

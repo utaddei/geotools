@@ -3,6 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
+ *    (C) 2004-2008, Refractions Research Inc.
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -19,6 +20,16 @@ package org.geotools.tile.impl.osm;
 import org.geotools.tile.TileFactory;
 import org.geotools.tile.impl.WebMercatorTileService;
 
+/**
+ * The tile service for the OpenStreetMap family.
+ *
+ * @author Tobias Sauerwein
+ * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/osm/OSMService.java $
+ */
 public class OSMService extends WebMercatorTileService {
 
     private static final TileFactory tileFactory = new OSMTileFactory();

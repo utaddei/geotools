@@ -33,6 +33,10 @@ import org.geotools.tile.impl.ZoomLevel;
  * 
  * @author Tobias Sauerwein
  * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/TileFActory.java $
  */
 public abstract class TileFactory {
 

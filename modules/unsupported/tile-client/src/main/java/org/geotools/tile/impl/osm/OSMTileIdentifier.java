@@ -3,6 +3,7 @@
  *    http://geotools.org
  *
  *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
+ *    (C) 2004-2008, Refractions Research Inc.
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -18,6 +19,21 @@ package org.geotools.tile.impl.osm;
 
 import org.geotools.tile.TileIdentifier;
 import org.geotools.tile.impl.ZoomLevel;
+
+/**
+ * <p>
+ * The TileIdentifier implementation for the OpenStreetMap family. This
+ * identifier follows the grid logic of similar implementations. Please refer to
+ * the <a href="http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">
+ * OpenStreetMap Wiki</a> for the exact description.
+ * </p>
+ * 
+ * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/impl/osm/OSMTileIdentifier.java $
+ */
 
 public class OSMTileIdentifier extends TileIdentifier {
 

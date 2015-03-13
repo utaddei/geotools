@@ -21,7 +21,6 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -30,20 +29,23 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.tile.util.CachedImageLoader;
+import org.geotools.tile.Tile.RenderState;
 import org.geotools.util.logging.Logging;
 
 /**
+ * <p>
  * At tile represents a single space on the map within a specific
  * ReferencedEnvelope. It holds a RenderExecutorComposite for fetching its
  * image, and an SWTImage (which is disposed at various times). It listens to
  * events for when to fetch, dispose, and construct new images. From
- * https://github
- * .com/moovida/uDig/blob/master/plugins/net.refractions.udig.project/src/net/
- * refractions/udig/project/render/Tile.java
+ * </p>
  *
  * @author GDavis
  * @author Ugo Taddei
+ * @since 12
+ * @source $URL:
+ *         http://svn.osgeo.org/geotools/trunk/modules/unsupported/tile-client
+ *         /src/main/java/org/geotools/tile/Tile.java $
  */
 public abstract class Tile implements ImageLoader {
 
@@ -135,8 +137,7 @@ public abstract class Tile implements ImageLoader {
     /**
      * A delegate to proved direct loading or load from a disk (cache).
      */
-    private ImageLoader imageLoader = new CachedImageLoader(new File(
-            "/home/ugo/temp"));
+    private ImageLoader imageLoader = this;
 
     public void setImageLoader(ImageLoader imageLoader) {
         if (imageLoader == null) {
