@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.tile.ui;
+package org.geotools.tile.util;
 
 import java.awt.Color;
 import java.io.File;
@@ -31,7 +31,6 @@ import org.geotools.styling.SLD;
 import org.geotools.styling.Style;
 import org.geotools.swing.JMapFrame;
 import org.geotools.tile.ServiceTest;
-import org.geotools.tile.TileLayer;
 import org.geotools.tile.impl.bing.BingService;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;

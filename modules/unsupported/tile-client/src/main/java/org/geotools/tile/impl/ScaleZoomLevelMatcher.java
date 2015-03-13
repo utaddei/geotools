@@ -189,30 +189,28 @@ public class ScaleZoomLevelMatcher {
     /**
      * Finds out the best fitting zoom-level for a given map-scale.
      *
-     * @param wmtSource
+     * @param service
      * @param tempScaleList
      * @return
      */
-    public int getZoomLevelFromScale(TileService wmtSource, double[] tempScaleList) {
-        double[] scaleList = wmtSource.getScaleList();
-
-        System.out.println(Arrays.toString(scaleList));
+    public int getZoomLevelFromScale(TileService service, double[] tempScaleList) {
+        double[] scaleList = service.getScaleList();
 
         // Start with the most detailed zoom-level and search the best-fitting
         // one
         int zoomLevel = scaleList.length - 1;
-        getOptimumScaleFromZoomLevel(zoomLevel, wmtSource, tempScaleList);
+        getOptimumScaleFromZoomLevel(zoomLevel, service, tempScaleList);
 
         for (int i = scaleList.length - 2; i >= 0; i--) {
             if (Double.isNaN(scaleList[i])) {
                 break;
-            } else if (getScale() < getOptimumScaleFromZoomLevel(i, wmtSource,
+            } else if (getScale() < getOptimumScaleFromZoomLevel(i, service,
                     tempScaleList)) {
                 break;
             }
 
             zoomLevel = i;
-            if (getScale() > getOptimumScaleFromZoomLevel(i + 1, wmtSource,
+            if (getScale() > getOptimumScaleFromZoomLevel(i + 1, service,
                     tempScaleList)) {
                 zoomLevel = i;
             }
@@ -228,12 +226,12 @@ public class ScaleZoomLevelMatcher {
      * size when displayed in uDig.
      *
      * @param zoomLevel
-     * @param wmtSource
+     * @param service
      * @param tempScaleList
      * @return
      */
     public double getOptimumScaleFromZoomLevel(int zoomLevel,
-            TileService wmtSource, double[] tempScaleList) {
+            TileService service, double[] tempScaleList) {
         // check if we have calculated this already
         if (!Double.isNaN(tempScaleList[zoomLevel])) {
             return tempScaleList[zoomLevel];
@@ -241,10 +239,10 @@ public class ScaleZoomLevelMatcher {
 
         try {
             ReferencedEnvelope centerTileBounds = getBoundsOfCenterTileInMapCrs(
-                    zoomLevel, wmtSource);
+                    zoomLevel, service);
 
             double _scale = RendererUtilities.calculateScale(centerTileBounds,
-                    wmtSource.getTileWidth(), wmtSource.getTileHeight(), DPI);
+                    service.getTileWidth(), service.getTileHeight(), DPI);
 
             // cache the scale
             tempScaleList[zoomLevel] = _scale;
@@ -255,7 +253,7 @@ public class ScaleZoomLevelMatcher {
         }
 
         // in case of error, return fallback zoom-level
-        return wmtSource.getScaleList()[zoomLevel];
+        return service.getScaleList()[zoomLevel];
     }
 
     public double getOptimumScaleFromZoomLevel(int zoomLevel,
@@ -299,7 +297,7 @@ public class ScaleZoomLevelMatcher {
         // get the coordinates of the map centre (in TileCrs)
         Coordinate centerPoint = mapExtentTileCrs.centre();
 
-        return tileFactory.getTileFromCoordinate(centerPoint.x, centerPoint.y,
+        return tileFactory.findTileAtCoordinate(centerPoint.x, centerPoint.y,
                 zoomLevelInstance, wmtSource);
     }
 

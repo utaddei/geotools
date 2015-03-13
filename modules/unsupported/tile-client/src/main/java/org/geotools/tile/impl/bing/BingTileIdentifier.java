@@ -11,7 +11,7 @@ public class BingTileIdentifier extends TileIdentifier {
      * @param zoomLevel
      * @param x
      * @param y
-     * @param source
+     * @param serviceName
      */
     public BingTileIdentifier(int x, int y, ZoomLevel zoomLevel,
             String serviceName) {

@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.tile;
+package org.geotools.tile.util;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -33,6 +33,8 @@ import org.geotools.map.MapContent;
 import org.geotools.map.MapViewport;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.renderer.lite.RendererUtilities;
+import org.geotools.tile.Tile;
+import org.geotools.tile.TileService;
 import org.geotools.util.logging.Logging;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
@@ -83,7 +85,9 @@ public class TileLayer extends DirectLayer {
         Graphics2D g2d = mosaickedImage.createGraphics();
         long t = System.currentTimeMillis();
         renderTiles(tiles, g2d, viewportExtent, viewport.getWorldToScreen());
-        System.out.println("Sync: " + (System.currentTimeMillis() - t));
+
+        // System.out.println("Sync: " + (System.currentTimeMillis() - t));
+
         this.coverage = gridFactory.create("GridCoverage", mosaickedImage,
                 viewportExtent);
 

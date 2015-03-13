@@ -32,7 +32,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
     @Test
     public void testGetTileFromCoordinate() {
 
-        Tile tile = factory.getTileFromCoordinate(51, 7,
+        Tile tile = factory.findTileAtCoordinate(51, 7,
                 new WebMercatorZoomLevel(5), createService());
 
         TileService service = createService();

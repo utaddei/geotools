@@ -21,7 +21,7 @@ import org.geotools.tile.impl.ZoomLevel;
 /**
  * <p>
  * A TileIdentifier locates a tile in the grid space of a given tile server by
- * giving its column, row and zoom level. The main resposibility of a
+ * giving its column, row and zoom level. The main responsibility of a
  * TileIdentifier is to translate the grid values (zoom, x, y) into a "code"
  * using an algorithm which denotes the tile in a given server implementation.
  * </p>
@@ -39,9 +39,6 @@ import org.geotools.tile.impl.ZoomLevel;
  *         /src/main/java/org/geotools/tile/impl/bing/BingTileIdentifier.java $
  */
 public abstract class TileIdentifier {
-
-    @Deprecated
-    private static final String ID_DIVIDER = "_"; //$NON-NLS-1$
 
     private int x;
 
@@ -133,6 +130,42 @@ public abstract class TileIdentifier {
     }
 
     /**
+     * Arithmetic implementation of modulo, as the Java implementation of modulo
+     * can return negative values.
+     *
+     * <pre>
+     * arithmeticMod(-1, 8) = 7
+     * </pre>
+     *
+     * @param a
+     * @param b
+     * @return the positive remainder
+     */
+    public static final int arithmeticMod(int a, int b) {
+        return (a >= 0) ? a % b : a % b + b;
+    }
+
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof TileIdentifier)) {
+            return false;
+        }
+
+        return this.getId().equals(((TileIdentifier) other).getId());
+
+    }
+
+    public int hashCode() {
+        return this.getId().hashCode();
+    }
+
+    public String toString() {
+        return this.getId();
+    }
+
+    /**
      * <p>
      * Gets the id of a tile, which can be used for caching purposes.
      * </p>
@@ -168,38 +201,6 @@ public abstract class TileIdentifier {
      * @return the code
      */
     public abstract String getCode();
-
-    /**
-     * Arithmetic implementation of modulo, as the Java implementation of modulo
-     * can return negative values.
-     *
-     * <pre>
-     * arithmeticMod(-1, 8) = 7
-     * </pre>
-     *
-     * @param a
-     * @param b
-     * @return the positive remainder
-     */
-    public static int arithmeticMod(int a, int b) {
-        return (a >= 0) ? a % b : a % b + b;
-    }
-
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (!(other instanceof TileIdentifier)) {
-            return false;
-        }
-
-        return this.getId().equals(((TileIdentifier) other).getId());
-
-    }
-
-    public int hashCode() {
-        return this.getId().hashCode();
-    }
 
     public abstract TileIdentifier getRightNeighbour();
 

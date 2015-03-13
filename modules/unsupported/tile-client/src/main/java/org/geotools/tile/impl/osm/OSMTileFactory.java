@@ -27,12 +27,12 @@ public class OSMTileFactory extends WebMercatorTileFactory {
     /**
      * {@inheritDoc}
      *
-     * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#getTileFromCoordinate(double,
+     * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#findTileAtCoordinate(double,
      *      double,
      *      org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTZoomLevel,
      *      org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource)
      */
-    public Tile getTileFromCoordinate(double lon, double lat,
+    public Tile findTileAtCoordinate(double lon, double lat,
             ZoomLevel zoomLevel, TileService service) {
         lat = TileFactory.normalizeDegreeValue(lat, 90);
         lon = TileFactory.normalizeDegreeValue(lon, 180);

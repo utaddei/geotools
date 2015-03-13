@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
-import org.geotools.tile.Tile.RenderState;
 import org.geotools.tile.util.CachedImageLoader;
 import org.geotools.util.logging.Logging;
 
@@ -435,6 +434,10 @@ public abstract class Tile implements ImageLoader {
 
         return getUrl().equals(((Tile) other).getUrl());
 
+    }
+
+    public String toString() {
+        return this.getUrl().toString();
     }
 
     public abstract URL getUrl();

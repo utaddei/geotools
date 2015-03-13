@@ -14,7 +14,7 @@
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *    Lesser General Public License for more details.
  */
-package org.geotools.tile.map;
+package org.geotools.tile.util;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -25,7 +25,6 @@ import java.util.concurrent.CountDownLatch;
 
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.tile.Tile;
-import org.geotools.tile.TileLayer;
 import org.geotools.tile.TileService;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
@@ -58,7 +57,7 @@ public class AsyncCachedTileLayer extends TileLayer {
         }
         this.countDownLatch = null;
 
-        System.out.println("Async: " + (System.currentTimeMillis() - t));
+        // System.out.println("Async: " + (System.currentTimeMillis() - t));
     }
 
     protected void renderTile(final Tile tile, final Graphics2D g2d,
