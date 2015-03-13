@@ -22,7 +22,6 @@ import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import org.geotools.coverage.grid.GridCoverage2D;
@@ -76,10 +75,8 @@ public class TileLayer extends DirectLayer {
         final ReferencedEnvelope viewportExtent = viewport.getBounds();
         int scale = calculateScale(viewportExtent, viewport.getScreenArea());
 
-        Map<String, Tile> tileList = service.cutExtentIntoTiles2(
-                viewportExtent, scale, false, 128);
-
-        Collection<Tile> tiles = tileList.values();
+        Collection<Tile> tiles = service.findTilesInExtent(viewportExtent,
+                scale, false, 128);
 
         BufferedImage mosaickedImage = createImage(viewport.getScreenArea());
         Graphics2D g2d = mosaickedImage.createGraphics();

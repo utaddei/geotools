@@ -19,8 +19,8 @@ package org.geotools.tile;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -227,15 +227,15 @@ public abstract class TileService {
         return maxZoomLevel;
     }
 
-    public Map<String, Tile> cutExtentIntoTiles2(ReferencedEnvelope _mapExtent,
-            int scaleFactor, boolean recommendedZoomLevel, int tileLimitWarning) {
+    public Set<Tile> findTilesInExtent(ReferencedEnvelope _mapExtent,
+            int scaleFactor, boolean recommendedZoomLevel, int maxNumberOfTiles) {
 
         ReferencedEnvelope mapExtent = createSafeEnvelopeInWGS84(_mapExtent);
         ReferencedEnvelope extent = normalizeExtent(mapExtent);
 
         // only continue, if we have tiles that cover the requested extent
         if (!extent.intersects((Envelope) getBounds())) {
-            return Collections.emptyMap();
+            return Collections.emptySet();
         }
 
         TileFactory tileFactory = getTileFactory();
@@ -260,18 +260,20 @@ public abstract class TileService {
 
         ZoomLevel zoomLevel = tileFactory.getZoomLevel(zoomLevelA, this);
 
-        long maxNumberOfTiles = zoomLevel.getMaxTileNumber();
+        long maxNumberOfTilesForZoomLevel = zoomLevel.getMaxTileNumber();
 
-        Map<String, Tile> tileList = new HashMap<String, Tile>();
+        // Map<String, Tile> tileList = new HashMap<String, Tile>();
+        Set<Tile> tileList = new HashSet<Tile>(100);
 
         // Let's get the first tile which covers the upper-left corner
         Tile firstTile = tileFactory.findTileAtCoordinate(extent.getMinX(),
                 extent.getMaxY(), zoomLevel, this);
 
-        tileList.put(firstTile.getId(), addTileToList(firstTile));
+        addTileToCache(firstTile);
+        tileList.add(firstTile);
 
-        Tile firstTileOfRow = null;
-        Tile movingTile = firstTileOfRow = firstTile;
+        Tile firstTileOfRow = firstTile;
+        Tile movingTile = firstTile;
 
         // Loop column
         do {
@@ -291,19 +293,19 @@ public abstract class TileService {
                     // System.out.printf("N: %s %s", rightNeighbour.getId(),
                     // addTileToList(rightNeighbour));
 
-                    tileList.put(rightNeighbour.getId(),
-                            addTileToList(rightNeighbour));
+                    addTileToCache(rightNeighbour);
+                    tileList.add(rightNeighbour);
 
                     movingTile = rightNeighbour;
                 } else {
                     break;
                 }
-                if (tileList.size() > tileLimitWarning) {
-                    LOGGER.warning("Reached tile limit of " + tileLimitWarning
+                if (tileList.size() > maxNumberOfTiles) {
+                    LOGGER.warning("Reached tile limit of " + maxNumberOfTiles
                             + ". Returning an empty collection.");
-                    return Collections.emptyMap();
+                    return Collections.emptySet();
                 }
-            } while (tileList.size() < maxNumberOfTiles);
+            } while (tileList.size() < maxNumberOfTilesForZoomLevel);
 
             // get the next tile under the first one of the row
             // Tile lowerNeighbour = firstTileOfRow.getLowerNeighbour();
@@ -317,14 +319,14 @@ public abstract class TileService {
                 // System.out.printf("N: %s %s", lowerNeighbour.getId(),
                 // addTileToList(lowerNeighbour));
 
-                tileList.put(lowerNeighbour.getId(),
-                        addTileToList(lowerNeighbour));
+                addTileToCache(lowerNeighbour);
+                tileList.add(lowerNeighbour);
 
                 firstTileOfRow = movingTile = lowerNeighbour;
             } else {
                 break;
             }
-        } while (tileList.size() < maxNumberOfTiles);
+        } while (tileList.size() < maxNumberOfTilesForZoomLevel);
 
         return tileList;
     }
@@ -333,7 +335,7 @@ public abstract class TileService {
         return !(tiles.peek(tileId) == null || tiles.get(tileId) == null);
     }
 
-    private Tile addTileToList(Tile tile) {
+    private Tile addTileToCache(Tile tile) {
         if (listContainsTile(tile.getId())) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.fine("Tile already in cache: " + tile.getId());

@@ -130,10 +130,10 @@ public class BingServiceTest extends ServiceTest {
             int scale) {
 
         TileService service = createService();
-        Map<String, Tile> tileList = service.cutExtentIntoTiles2(extent, scale,
+        Collection<Tile> tiles = service.findTilesInExtent(extent, scale,
                 true, 28);
 
-        return tileList.values();
+        return tiles;
     }
 
     public List<String> getUrlList(String extentName) {
