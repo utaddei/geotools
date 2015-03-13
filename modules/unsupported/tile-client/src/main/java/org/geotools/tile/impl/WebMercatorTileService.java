@@ -22,12 +22,12 @@ import java.util.logging.Logger;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.geotools.util.logging.Logging;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
-public abstract class WebMercatorTileService extends WMTSource {
+public abstract class WebMercatorTileService extends TileService {
 
     private static final Logger LOGGER = Logging
             .getLogger(WebMercatorTileService.class.getPackage().getName());

@@ -25,7 +25,7 @@ import org.geotools.referencing.CRS;
 import org.geotools.renderer.lite.RendererUtilities;
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileFactory;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
@@ -91,7 +91,7 @@ public class ScaleZoomLevelMatcher {
 
     public static ScaleZoomLevelMatcher createMatcher(
             ReferencedEnvelope mapExtentMapCrs, double scale,
-            WMTSource wmtSource) throws Exception {
+            TileService wmtSource) throws Exception {
         CoordinateReferenceSystem crsMap = mapExtentMapCrs
                 .getCoordinateReferenceSystem();
         CoordinateReferenceSystem crsTiles = wmtSource.getTileCrs(); // the CRS
@@ -193,7 +193,7 @@ public class ScaleZoomLevelMatcher {
      * @param tempScaleList
      * @return
      */
-    public int getZoomLevelFromScale(WMTSource wmtSource, double[] tempScaleList) {
+    public int getZoomLevelFromScale(TileService wmtSource, double[] tempScaleList) {
         double[] scaleList = wmtSource.getScaleList();
 
         System.out.println(Arrays.toString(scaleList));
@@ -233,7 +233,7 @@ public class ScaleZoomLevelMatcher {
      * @return
      */
     public double getOptimumScaleFromZoomLevel(int zoomLevel,
-            WMTSource wmtSource, double[] tempScaleList) {
+            TileService wmtSource, double[] tempScaleList) {
         // check if we have calculated this already
         if (!Double.isNaN(tempScaleList[zoomLevel])) {
             return tempScaleList[zoomLevel];
@@ -259,7 +259,7 @@ public class ScaleZoomLevelMatcher {
     }
 
     public double getOptimumScaleFromZoomLevel(int zoomLevel,
-            WMTSource wmtSource) {
+            TileService wmtSource) {
         double[] tempScaleList = new double[wmtSource.getScaleList().length];
         Arrays.fill(tempScaleList, Double.NaN);
 
@@ -276,7 +276,7 @@ public class ScaleZoomLevelMatcher {
      * @throws Exception
      */
     private ReferencedEnvelope getBoundsOfCenterTileInMapCrs(int zoomLevel,
-            WMTSource wmtSource) throws Exception {
+            TileService wmtSource) throws Exception {
         Tile centerTile = getCenterTile(zoomLevel, wmtSource);
         ReferencedEnvelope boundsInTileCrs = centerTile.getExtent();
         ReferencedEnvelope boundsInMapCrs = projectTileToMapCrs(boundsInTileCrs);
@@ -291,7 +291,7 @@ public class ScaleZoomLevelMatcher {
      * @param wmtSource
      * @return
      */
-    private Tile getCenterTile(int zoomLevel, WMTSource wmtSource) {
+    private Tile getCenterTile(int zoomLevel, TileService wmtSource) {
         TileFactory tileFactory = wmtSource.getTileFactory();
         ZoomLevel zoomLevelInstance = tileFactory.getZoomLevel(zoomLevel,
                 wmtSource);

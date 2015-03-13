@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileIdentifier;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 import org.geotools.util.logging.Logging;
@@ -42,7 +42,7 @@ public class BingTile extends Tile {
 
     // private BingTileIdentifier tileIdentifier;
 
-    private WMTSource source;
+    private TileService source;
 
     /**
      * Konstruktor für eine neue BingTile.
@@ -50,12 +50,12 @@ public class BingTile extends Tile {
      * @param extent
      * @param tileName
      */
-    public BingTile(int x, int y, ZoomLevel zoomLevel, WMTSource bingSource) {
+    public BingTile(int x, int y, ZoomLevel zoomLevel, TileService bingSource) {
         this(new BingTileIdentifier(x, y, zoomLevel, bingSource.getName()),
                 bingSource);
     }
 
-    public BingTile(TileIdentifier tileName, WMTSource bingSource) {
+    public BingTile(TileIdentifier tileName, TileService bingSource) {
 
         super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName),
                 DEFAULT_TILE_SIZE);

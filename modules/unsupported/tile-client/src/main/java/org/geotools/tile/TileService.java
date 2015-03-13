@@ -39,7 +39,7 @@ import com.vividsolutions.jts.geom.Envelope;
  * @author to.srwn
  * @since 1.1.0
  */
-public abstract class WMTSource {
+public abstract class TileService {
 
     /**
      * This WeakHashMap acts as a memory cache. Because we are using
@@ -51,7 +51,7 @@ public abstract class WMTSource {
 
     private String name;
 
-    protected WMTSource(String name, String baseURL) {
+    protected TileService(String name, String baseURL) {
         setName(name);
         setBaseURL(baseURL);
 

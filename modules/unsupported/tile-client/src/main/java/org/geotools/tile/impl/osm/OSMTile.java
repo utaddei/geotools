@@ -20,7 +20,7 @@ import java.net.URL;
 
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileIdentifier;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 
@@ -28,14 +28,14 @@ public class OSMTile extends Tile {
 
     public static final int DEFAULT_TILE_SIZE = 256;
 
-    private WMTSource source;
+    private TileService source;
 
-    public OSMTile(int x, int y, ZoomLevel zoomLevel, WMTSource osmSource) {
+    public OSMTile(int x, int y, ZoomLevel zoomLevel, TileService osmSource) {
         this(new OSMTileIdentifier(x, y, zoomLevel, osmSource.getName()),
                 osmSource);
     }
 
-    public OSMTile(TileIdentifier tileName, WMTSource osmSource) {
+    public OSMTile(TileIdentifier tileName, TileService osmSource) {
         super(tileName, WebMercatorTileFactory.getExtentFromTileName(tileName),
                 DEFAULT_TILE_SIZE);
 

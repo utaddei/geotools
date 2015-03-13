@@ -25,8 +25,8 @@ import java.util.Map;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.tile.ServiceTest;
 import org.geotools.tile.Tile;
-import org.geotools.tile.WMTSource;
-import org.geotools.tile.impl.bing.BingSource;
+import org.geotools.tile.TileService;
+import org.geotools.tile.impl.bing.BingService;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -83,20 +83,20 @@ public class OSMServiceTest extends ServiceTest {
 
     @Test
     public void testGetName() {
-        WMTSource service = createService();
+        TileService service = createService();
         Assert.assertEquals("OSM", service.getName());
     }
 
     @Test
     public void testGetBaseURL() {
-        WMTSource service = createService();
+        TileService service = createService();
         Assert.assertEquals("http://tile.openstreetmap.org/",
                 service.getBaseUrl());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalName() {
-        new BingSource("", "http://localhost/");
+        new BingService("", "http://localhost/");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -128,7 +128,7 @@ public class OSMServiceTest extends ServiceTest {
     private Collection<Tile> findTilesInExtent(ReferencedEnvelope extent,
             int scale) {
 
-        WMTSource service = createService();
+        TileService service = createService();
         Map<String, Tile> tileList = service.cutExtentIntoTiles2(extent, scale,
                 true, 28);
 
@@ -139,7 +139,7 @@ public class OSMServiceTest extends ServiceTest {
         return extentNameToUrlList.get(extentName);
     }
 
-    private WMTSource createService() {
+    private TileService createService() {
         String baseURL = "http://tile.openstreetmap.org/";
         return new OSMService("OSM", baseURL);
 

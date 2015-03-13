@@ -26,7 +26,7 @@ import java.util.concurrent.CountDownLatch;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileLayer;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 
@@ -34,7 +34,7 @@ public class AsyncCachedTileLayer extends TileLayer {
 
     private CountDownLatch countDownLatch;
 
-    public AsyncCachedTileLayer(WMTSource service) {
+    public AsyncCachedTileLayer(TileService service) {
         super(service);
     }
 

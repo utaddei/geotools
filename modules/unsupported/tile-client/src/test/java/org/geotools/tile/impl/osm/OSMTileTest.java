@@ -17,7 +17,7 @@
 package org.geotools.tile.impl.osm;
 
 import org.geotools.tile.Tile;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.geotools.tile.impl.WebMercatorZoomLevel;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +31,7 @@ public class OSMTileTest {
     public void beforeTest() {
 
         String baseURL = "http://tile.openstreetmap.org/";
-        WMTSource service = new OSMService("Mapnik", baseURL);
+        TileService service = new OSMService("Mapnik", baseURL);
         OSMTileIdentifier tileIdentifier = new OSMTileIdentifier(10, 12,
                 new WebMercatorZoomLevel(5), service.getName());
 

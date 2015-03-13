@@ -21,7 +21,7 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileFactory;
 import org.geotools.tile.TileFactoryTest;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.WebMercatorZoomLevel;
 import org.junit.Assert;
@@ -35,7 +35,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
         Tile tile = factory.getTileFromCoordinate(51, 7,
                 new WebMercatorZoomLevel(5), createSource());
 
-        WMTSource service = createSource();
+        TileService service = createSource();
         BingTile expectedTile = new BingTile(20, 15,
                 new WebMercatorZoomLevel(5), service);
         Assert.assertEquals(expectedTile, tile);
@@ -45,7 +45,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindRightNeighbour() {
 
-        WMTSource service = createSource();
+        TileService service = createSource();
         BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5),
                 service);
 
@@ -61,7 +61,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindLowerNeighbour() {
 
-        WMTSource service = createSource();
+        TileService service = createSource();
         BingTile tile = new BingTile(20, 15, new WebMercatorZoomLevel(5),
                 service);
 
@@ -79,7 +79,7 @@ public class BingTileFactoryTest extends TileFactoryTest {
 
         BingTileIdentifier tileId = new BingTileIdentifier(10, 12,
                 new WebMercatorZoomLevel(5), "SomeName");
-        BingTile tile = new BingTile(tileId, new BingSource("2", "d"));
+        BingTile tile = new BingTile(tileId, new BingService("2", "d"));
 
         ReferencedEnvelope env = WebMercatorTileFactory
                 .getExtentFromTileName(tileId);
@@ -93,9 +93,9 @@ public class BingTileFactoryTest extends TileFactoryTest {
 
     }
 
-    private WMTSource createSource() {
+    private TileService createSource() {
         String baseURL = "http://ak.dynamic.t2.tiles.virtualearth.net/comp/ch/${code}?mkt=de-de&it=G,VE,BX,L,LA&shading=hill&og=78&n=z";
-        return new BingSource("Road", baseURL);
+        return new BingService("Road", baseURL);
 
     }
 

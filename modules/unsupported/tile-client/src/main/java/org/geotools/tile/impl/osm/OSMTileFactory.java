@@ -18,7 +18,7 @@ package org.geotools.tile.impl.osm;
 
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileFactory;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.ZoomLevel;
 
@@ -30,10 +30,10 @@ public class OSMTileFactory extends WebMercatorTileFactory {
      * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#getTileFromCoordinate(double,
      *      double,
      *      org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTZoomLevel,
-     *      org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource)
+     *      org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource)
      */
     public Tile getTileFromCoordinate(double lon, double lat,
-            ZoomLevel zoomLevel, WMTSource wmtSource) {
+            ZoomLevel zoomLevel, TileService wmtSource) {
         lat = TileFactory.normalizeDegreeValue(lat, 90);
         lon = TileFactory.normalizeDegreeValue(lon, 180);
 
@@ -73,13 +73,13 @@ public class OSMTileFactory extends WebMercatorTileFactory {
         return value;
     }
 
-    public Tile findRightNeighbour(Tile tile, WMTSource service) {
+    public Tile findRightNeighbour(Tile tile, TileService service) {
         return new OSMTile(tile.getTileIdentifier().getRightNeighbour(),
                 service);
     }
 
     @Override
-    public Tile findLowerNeighbour(Tile tile, WMTSource service) {
+    public Tile findLowerNeighbour(Tile tile, TileService service) {
         return new OSMTile(tile.getTileIdentifier().getLowerNeighbour(),
                 service);
     }

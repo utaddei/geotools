@@ -44,14 +44,14 @@ public class TileLayer extends DirectLayer {
 
     private static final GridCoverageFactory gridFactory = new GridCoverageFactory();
 
-    private WMTSource service;
+    private TileService service;
 
     /** Resolution in DPI */
     private double resolution = 90;
 
     private GridCoverage2D coverage;
 
-    public TileLayer(WMTSource service) {
+    public TileLayer(TileService service) {
         super();
         this.service = service;
     }

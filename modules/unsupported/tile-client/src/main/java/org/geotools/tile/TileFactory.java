@@ -22,9 +22,9 @@ import org.geotools.tile.impl.ZoomLevel;
 public abstract class TileFactory {
 
     public abstract Tile getTileFromCoordinate(double lon, double lat,
-            ZoomLevel zoomLevel, WMTSource wmtSource);
+            ZoomLevel zoomLevel, TileService wmtSource);
 
-    public abstract ZoomLevel getZoomLevel(int zoomLevel, WMTSource wmtSource);
+    public abstract ZoomLevel getZoomLevel(int zoomLevel, TileService wmtSource);
 
     /**
      * uDig may produce numbers like -210° for the longitude, but we need a
@@ -57,8 +57,8 @@ public abstract class TileFactory {
         }
     }
 
-    public abstract Tile findRightNeighbour(Tile tile, WMTSource service);
+    public abstract Tile findRightNeighbour(Tile tile, TileService service);
 
-    public abstract Tile findLowerNeighbour(Tile tile, WMTSource service);
+    public abstract Tile findLowerNeighbour(Tile tile, TileService service);
 
 }

@@ -21,10 +21,10 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.Tile;
 import org.geotools.tile.TileFactory;
 import org.geotools.tile.TileFactoryTest;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 import org.geotools.tile.impl.WebMercatorTileFactory;
 import org.geotools.tile.impl.WebMercatorZoomLevel;
-import org.geotools.tile.impl.bing.BingSource;
+import org.geotools.tile.impl.bing.BingService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
         Tile tile = factory.getTileFromCoordinate(51, 7,
                 new WebMercatorZoomLevel(5), createSource());
 
-        WMTSource service = createSource();
+        TileService service = createSource();
         OSMTile expectedTile = new OSMTile(20, 15, new WebMercatorZoomLevel(5),
                 service);
         Assert.assertEquals(expectedTile, tile);
@@ -46,7 +46,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindRightNeighbour() {
 
-        WMTSource service = createSource();
+        TileService service = createSource();
         OSMTile tile = new OSMTile(20, 15, new WebMercatorZoomLevel(5), service);
 
         Tile neighbour = factory.findRightNeighbour(tile, service);
@@ -61,7 +61,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
     @Test
     public void testFindLowerNeighbour() {
 
-        WMTSource service = createSource();
+        TileService service = createSource();
         OSMTile tile = new OSMTile(20, 15, new WebMercatorZoomLevel(5), service);
 
         Tile neighbour = factory.findLowerNeighbour(tile, service);
@@ -78,7 +78,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
 
         OSMTileIdentifier tileId = new OSMTileIdentifier(10, 12,
                 new WebMercatorZoomLevel(5), "SomeName");
-        OSMTile tile = new OSMTile(tileId, new BingSource("2", "d"));
+        OSMTile tile = new OSMTile(tileId, new BingService("2", "d"));
 
         ReferencedEnvelope env = WebMercatorTileFactory
                 .getExtentFromTileName(tileId);
@@ -92,7 +92,7 @@ public class OSMTileFactoryTest extends TileFactoryTest {
 
     }
 
-    private WMTSource createSource() {
+    private TileService createSource() {
         String baseURL = "http://tile.openstreetmap.org/";
         return new OSMService("OSM", baseURL);
 

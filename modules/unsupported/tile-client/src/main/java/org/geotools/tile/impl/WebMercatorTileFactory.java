@@ -20,7 +20,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.tile.TileFactory;
 import org.geotools.tile.TileIdentifier;
-import org.geotools.tile.WMTSource;
+import org.geotools.tile.TileService;
 
 public abstract class WebMercatorTileFactory extends TileFactory {
 
@@ -28,10 +28,10 @@ public abstract class WebMercatorTileFactory extends TileFactory {
      * {@inheritDoc}
      *
      * @see org.locationtech.udig.catalog.internal.wmt.tile.WMTTile.WMTTileFactory#getZoomLevel(int,
-     *      org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource)
+     *      org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource)
      */
     @Override
-    public ZoomLevel getZoomLevel(int zoomLevel, WMTSource wmtSource) {
+    public ZoomLevel getZoomLevel(int zoomLevel, TileService wmtSource) {
 
         return new WebMercatorZoomLevel(zoomLevel);
     }

@@ -25,7 +25,7 @@ import org.geotools.tile.impl.WebMercatorTileService;
  * @author Ugo Taddei
  * @version $Revision: $
  */
-public class BingSource extends WebMercatorTileService {
+public class BingService extends WebMercatorTileService {
 
     private static final TileFactory tileFactory = new BingTileFactory();
 
@@ -36,7 +36,7 @@ public class BingSource extends WebMercatorTileService {
             36111.98, 18055.99, 9028.0, 4514.0, 2257.0, 1128.50, 564.25,
             282.12, 141.06, 70.53 };
 
-    public BingSource(String name, String baseUrl) {
+    public BingService(String name, String baseUrl) {
         super(name, baseUrl);
 
     }
@@ -44,7 +44,7 @@ public class BingSource extends WebMercatorTileService {
     /**
      * {@inheritDoc}
      *
-     * @see org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource#getScaleList()
+     * @see org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource#getScaleList()
      */
     @Override
     public double[] getScaleList() {
@@ -54,7 +54,7 @@ public class BingSource extends WebMercatorTileService {
     /**
      * {@inheritDoc}
      *
-     * @see org.locationtech.udig.catalog.internal.wmt.wmtsource.WMTSource#getTileFactory()
+     * @see org.TileService.udig.catalog.internal.wmt.wmtsource.WMTSource#getTileFactory()
      */
     public TileFactory getTileFactory() {
         return tileFactory;

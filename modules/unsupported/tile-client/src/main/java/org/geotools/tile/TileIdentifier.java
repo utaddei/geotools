@@ -52,7 +52,7 @@ public abstract class TileIdentifier {
     private String serviceName;
 
     @Deprecated
-    private WMTSource source;
+    private TileService source;
 
     public TileIdentifier(int x, int y, ZoomLevel zoomLevel, String serviceName) {
 
@@ -132,7 +132,7 @@ public abstract class TileIdentifier {
     }
 
     @Deprecated
-    public WMTSource getSource() {
+    public TileService getSource() {
         return source;
     }
 
