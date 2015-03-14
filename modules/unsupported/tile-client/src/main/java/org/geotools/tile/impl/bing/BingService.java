@@ -36,7 +36,21 @@ import org.geotools.tile.impl.WebMercatorTileService;
  * Metadata</a>. In particular, you need to instantiate a BingService with a URL
  * template such as
  * <code>http://ecn.subdomain.tiles.virtualearth.net/tiles/r${code}.jpeg?key=YOUR_BING_KEY&g=129&mkt={culture}&shading=hill&stl=H</code>
- * . The "${code}" value will be substituted by the tile code (the quadkey) when
+ * .
+ * 
+ * <pre>
+ * String baseURL = &quot;http://ecn.subdomain.tiles.virtualearth.net/tiles/r${code}.jpeg?key=YOUR_BING_KEY&g=129&mkt={culture}&shading=hill&stl=H;&quot;
+ * TileService service = new BingService(&quot;Road&quot;, baseURL);
+ * 
+ * // you may add to a map:
+ * map.addLayer(new TileLayer(service));
+ * 
+ * // or do some hard work to fetch the tiles
+ *  Collection<Tile> tiles = service.findTilesInExtent(viewportExtent,
+ *          scale, false, 128);
+ * </pre>
+ * 
+ * The "${code}" value will be substituted by the tile code (the quadkey) when
  * the BingTile creates its URL.
  * </p>
  *
